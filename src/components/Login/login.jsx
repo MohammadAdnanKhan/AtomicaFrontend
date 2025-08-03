@@ -13,7 +13,7 @@ export default function Login() {
     e.preventDefault();
     if (name === 'ADMIN' && password === 'ADMIN@123') {
       localStorage.setItem('isAuth', 'true');
-      navigate('/form');
+      navigate('/admin/form');
     } else {
       alert('Invalid credentials entered! Retry again...');
     }
