@@ -23,7 +23,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchCandidates = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/candidates', {
+        const response = await axios.get('https://atomicabackend.onrender.com/api/candidates', {
           params: selectedCategory !== 'All' ? { category: selectedCategory } : {}
         });
         setCandidates(response.data);
@@ -132,7 +132,7 @@ const Dashboard = () => {
       <div className="flex justify-end mb-6">
         <button
           onClick={exportFilteredToExcel}
-          className="px-5 py-2 rounded-md bg-light-accent dark:bg-dark-accent text-white font-semibold hover:opacity-90 transition"
+          className="px-5 py-2 rounded-md bg-light-primary dark:bg-dark-primary text-white font-semibold hover:opacity-90 transition"
         >
           Export Filtered to Excel
         </button>
@@ -165,7 +165,7 @@ const Dashboard = () => {
             <div className="mt-4 flex flex-col gap-1">
               <div className="mt-4 flex flex-wrap items-center gap-4">
                 <a
-                  href={`http://localhost:5000/api/resume/${candidate.id}`}
+                  href={`https://atomicabackend.onrender.com/api/resume/${candidate.id}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-4 py-2 bg-light-primary dark:bg-dark-primary text-white rounded-md font-medium text-sm hover:opacity-90 transition"
@@ -188,7 +188,7 @@ const Dashboard = () => {
         <div className="text-center mt-10">
           <button
             onClick={showMore}
-            className="px-6 py-2 rounded-full bg-light-accent dark:bg-dark-accent text-white font-semibold shadow-md hover:scale-105 transition"
+            className="px-6 py-2 rounded-full bg-light-primary dark:bg-dark-primary text-white font-semibold shadow-md hover:scale-105 transition"
           >
             Show More
           </button>

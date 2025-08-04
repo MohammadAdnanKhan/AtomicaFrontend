@@ -51,7 +51,7 @@ export default function Navbar() {
 
           <button
             onClick={logout}
-            className="bg-light-accent dark:bg-dark-accent text-white px-4 py-1.5 rounded-md hover:scale-105 transition-transform shadow-sm"
+            className="bg-light-primary dark:bg-dark-primary text-white px-4 py-1.5 rounded-md hover:scale-105 transition-transform shadow-sm"
           >
             Logout
           </button>

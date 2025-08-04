@@ -44,7 +44,7 @@ export default function FormPage() {
     });
 
     try {
-      await axios.post('http://localhost:5000/api/submit', data);
+      await axios.post('https://atomicabackend.onrender.com/api/submit', data);
       alert('Submitted successfully!');
       setFormData({
         name: '',
@@ -108,10 +108,10 @@ export default function FormPage() {
               name="resume"
               accept="application/pdf"
               onChange={handleChange}
-              className="w-full p-3 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-light-accent file:text-white hover:file:opacity-90 dark:file:bg-dark-accent"
+              className="w-full p-3 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold  file:bg-light-primary  file:text-white hover:file:opacity-90 dark:file:bg-dark-primary"
             />
 
-            <button type="submit" className="w-full py-3 font-headline bg-light-accent dark:bg-dark-accent text-white rounded-lg font-semibold hover:opacity-90 transition">
+            <button type="submit" className="w-full py-3 font-headline bg-light-primary dark:bg-dark-primary text-white rounded-lg font-semibold hover:opacity-90 transition">
               Submit
             </button>
           </form>
