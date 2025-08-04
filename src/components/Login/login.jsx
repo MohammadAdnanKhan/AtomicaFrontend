@@ -11,7 +11,7 @@ export default function Login() {
 
   const handleSubmit = e => {
     e.preventDefault();
-    if (name === 'ADMIN' && password === 'ADMIN@123') {
+    if (name === 'ATOMICAADMIN' && password === 'ADMIN@atomica$$$') {
       localStorage.setItem('isAuth', 'true');
       navigate('/admin/form');
     } else {
