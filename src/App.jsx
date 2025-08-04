@@ -6,7 +6,8 @@ import FormPage from './components/Formpage/formpage';
 import Dashboard from './components/Dashboard/dashboard';
 import Home from './components/Home/home';
 import About from './components/About/about';
-import Layout from './components/Layout/layout'
+import Layout from './components/Layout/layout';
+import MainLayout from './components/Mainlayout/mainlayout'; // <-- Import this
 
 const isAuthenticated = () => localStorage.getItem('isAuth') === 'true';
 
@@ -18,9 +19,13 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/home" element={<Home />} />
-        <Route path="/about-us" element={<About />} />
+        {/* ✅ Public routes with MainLayout */}
+        <Route path="/" element={<MainLayout />}>
+          <Route path="home" element={<Home />} />
+          <Route path="about-us" element={<About />} />
+        </Route>
 
+        {/* 🔐 Admin routes with Layout */}
         <Route path="/admin" element={<Layout />}>
           <Route
             index
@@ -42,6 +47,7 @@ export default function App() {
           <Route path="dashboard" element={<PrivateRoute element={<Dashboard />} />} />
         </Route>
 
+        {/* Fallback to /home */}
         <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>
     </Router>
