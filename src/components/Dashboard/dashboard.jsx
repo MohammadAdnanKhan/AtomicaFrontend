@@ -1,3 +1,6 @@
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -33,6 +36,32 @@ const Dashboard = () => {
     fetchCandidates();
   }, [selectedCategory]);
 
+  const exportFilteredToExcel = () => {
+    if (filteredCandidates.length === 0) {
+      alert('No candidates to export!');
+      return;
+    }
+
+    const dataToExport = filteredCandidates.map(({ resume, ...rest }) => rest); // Exclude resume (binary)
+    const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Candidates');
+
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const dataBlob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    saveAs(dataBlob, 'filtered_candidates.xlsx');
+  };
+  const exportSingleCandidate = (candidate) => {
+    const { resume, ...data } = candidate; // Exclude binary resume
+    const worksheet = XLSX.utils.json_to_sheet([data]);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Candidate');
+
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const dataBlob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    saveAs(dataBlob, `candidate_${candidate.id}.xlsx`);
+  };
+
   const showMore = () => setVisibleCount(prev => prev + 5);
 
   const filteredCandidates = candidates.filter(candidate => {
@@ -51,15 +80,14 @@ const Dashboard = () => {
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
-        {/* Category Filter */}
         <div>
-          <label className="block text-lg font-semibold mb-2 text-gray-700 dark:text-gray-300">
+          <label className="block text-lg font-semibold mb-2 text-light-text dark:text-dark-text">
             Filter by Category
           </label>
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="w-full px-4 py-2 bg-white dark:bg-dark-surface text-black dark:text-white border border-gray-300 dark:border-gray-600 rounded-md shadow-sm"
+            className="w-full px-4 py-2 bg-light-surface dark:bg-dark-surface text-light-text dark:text-dark-text border border-gray-300 dark:border-gray-600 rounded-md shadow-sm"
           >
             {categories.map(cat => (
               <option key={cat} value={cat}>{cat}</option>
@@ -67,9 +95,8 @@ const Dashboard = () => {
           </select>
         </div>
 
-        {/* Age Filter */}
         <div>
-          <label className="block text-lg font-semibold mb-2 text-gray-700 dark:text-gray-300">
+          <label className="block text-lg font-semibold mb-2 text-light-text dark:text-dark-text">
             Filter by Age Range
           </label>
           <div className="flex gap-2">
@@ -77,20 +104,19 @@ const Dashboard = () => {
               type="number"
               placeholder="Min Age"
               onChange={e => setMinAge(e.target.value)}
-              className="w-1/2 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-dark-surface text-black dark:text-white"
+              className="w-1/2 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-light-surface dark:bg-dark-surface text-light-text dark:text-dark-text"
             />
             <input
               type="number"
               placeholder="Max Age"
               onChange={e => setMaxAge(e.target.value)}
-              className="w-1/2 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-dark-surface text-black dark:text-white"
+              className="w-1/2 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-light-surface dark:bg-dark-surface text-light-text dark:text-dark-text"
             />
           </div>
         </div>
 
-        {/* ID Search */}
         <div>
-          <label className="block text-lg font-semibold mb-2 text-gray-700 dark:text-gray-300">
+          <label className="block text-lg font-semibold mb-2 text-light-text dark:text-dark-text">
             Search by Candidate ID
           </label>
           <input
@@ -98,42 +124,62 @@ const Dashboard = () => {
             placeholder="Enter ID"
             value={searchId}
             onChange={e => setSearchId(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-dark-surface text-black dark:text-white"
+            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-light-surface dark:bg-dark-surface text-light-text dark:text-dark-text"
           />
         </div>
       </div>
 
-      {/* Cards */}
+      <div className="flex justify-end mb-6">
+        <button
+          onClick={exportFilteredToExcel}
+          className="px-5 py-2 rounded-md bg-light-accent dark:bg-dark-accent text-white font-semibold hover:opacity-90 transition"
+        >
+          Export Filtered to Excel
+        </button>
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredCandidates.slice(0, visibleCount).map(candidate => (
           <div
             key={candidate.id}
-            className="p-6 rounded-2xl bg-white/70 dark:bg-dark-surface/60 backdrop-blur-md shadow-lg transition hover:shadow-2xl border border-gray-200 dark:border-gray-700"
+            className="p-6 rounded-2xl bg-white/70 dark:bg-dark-surface/60 backdrop-blur-md shadow-lg border border-gray-200 dark:border-gray-700 transition hover:shadow-2xl"
           >
-            <h3 className="text-xl font-bold text-light-primary dark:text-dark-primary">{candidate.name}</h3>
-            
+            <h3 className="text-xl font-bold text-light-primary dark:text-dark-primary mb-2">{candidate.name}</h3>
+
             {selectedCategory === 'All' && candidate.category && (
               <p className="text-sm text-light-secondary dark:text-dark-secondary mb-1">
                 Category: {candidate.category}
               </p>
             )}
 
-            {candidate.subcategory && <p>🛠 &nbsp;Skills: {candidate.subcategory}</p>}
+            {candidate.subcategory && <p>🛠 Skills: {candidate.subcategory}</p>}
             {candidate.age && <p>🎂 Age: {candidate.age}</p>}
             {candidate.gender && <p>🚻 Gender: {candidate.gender}</p>}
-            {candidate.city && candidate.state && <p>📍 {candidate.city}, {candidate.state}</p>}
+            {(candidate.city || candidate.state) && (
+              <p>📍 {candidate.city}{candidate.city && candidate.state ? ', ' : ''}{candidate.state}</p>
+            )}
             {candidate.mobile && <p>📞 Mobile: {candidate.mobile}</p>}
             {candidate.mobile_whatsapp && <p>💬 WhatsApp: {candidate.mobile_whatsapp}</p>}
             {candidate.email && <p>✉️ Email: {candidate.email}</p>}
 
-            <a
-              href={`http://localhost:5000/api/resume/${candidate.id}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block mt-3 text-sm font-semibold text-blue-600 dark:text-blue-400 hover:underline transition"
-            >
-              View Resume ↗
-            </a>
+            <div className="mt-4 flex flex-col gap-1">
+              <div className="mt-4 flex flex-wrap items-center gap-4">
+                <a
+                  href={`http://localhost:5000/api/resume/${candidate.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 bg-light-primary dark:bg-dark-primary text-white rounded-md font-medium text-sm hover:opacity-90 transition"
+                >
+                  View Resume
+                </a>
+                <button
+                  onClick={() => exportSingleCandidate(candidate)}
+                  className="px-4 py-2 bg-green-600 text-white rounded-md font-medium text-sm hover:bg-green-700 transition"
+                >
+                  Export to Excel
+                </button>
+              </div>
+            </div>
           </div>
         ))}
       </div>
@@ -142,7 +188,7 @@ const Dashboard = () => {
         <div className="text-center mt-10">
           <button
             onClick={showMore}
-            className="px-6 py-2 rounded-full bg-light-accent dark:bg-dark-accent text-white font-semibold shadow-md hover:scale-105 hover:shadow-xl transition"
+            className="px-6 py-2 rounded-full bg-light-accent dark:bg-dark-accent text-white font-semibold shadow-md hover:scale-105 transition"
           >
             Show More
           </button>
@@ -150,8 +196,7 @@ const Dashboard = () => {
       )}
     </div>
   </div>
-);
-
+  );
 };
 
 export default Dashboard;
