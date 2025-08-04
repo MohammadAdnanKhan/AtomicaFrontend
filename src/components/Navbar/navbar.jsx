@@ -37,6 +37,12 @@ export default function Navbar() {
 
         <div className="hidden md:flex gap-4 items-center text-sm font-medium">
           <Link
+            to="/home"
+            className="hover:underline underline-offset-4 hover:text-light-accent dark:hover:text-dark-accent transition"
+          >
+            Home
+          </Link>
+          <Link
             to="/admin/dashboard"
             className="hover:underline underline-offset-4 hover:text-light-accent dark:hover:text-dark-accent transition"
           >

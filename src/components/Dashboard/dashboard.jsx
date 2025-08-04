@@ -151,7 +151,7 @@ const Dashboard = () => {
                 Category: {candidate.category}
               </p>
             )}
-
+            {candidate.id && <p>🪪 Id: {candidate.id}</p>}
             {candidate.subcategory && <p>🛠 Skills: {candidate.subcategory}</p>}
             {candidate.age && <p>🎂 Age: {candidate.age}</p>}
             {candidate.gender && <p>🚻 Gender: {candidate.gender}</p>}
