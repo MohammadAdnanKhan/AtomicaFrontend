@@ -7,34 +7,41 @@ import Dashboard from './components/Dashboard/dashboard';
 import Home from './components/Home/home';
 import About from './components/About/about';
 import Layout from './components/Layout/layout';
-import MainLayout from './components/Mainlayout/mainlayout'; // <-- Import this
+import MainLayout from './components/Mainlayout/mainlayout';
+import Services from './components/Services/services';
+import Contact from './components/Contact/contact';
+import Profile from './components/Profile/profile';
+import Loginusers from './components/Loginusers/loginusers';
 
 const isAuthenticated = () => localStorage.getItem('isAuth') === 'true';
+const isUserAuthenticated = () => localStorage.getItem('userAuth') === 'true';
 
 const PrivateRoute = ({ element }) => {
   return isAuthenticated() ? element : <Navigate to="/admin/login" replace />;
+};
+
+const UserPrivateRoute = ({ element }) => {
+  return isUserAuthenticated() ? element : <Navigate to="/login" replace />;
 };
 
 export default function App() {
   return (
     <Router>
       <Routes>
-        {/* ✅ Public routes with MainLayout */}
         <Route path="/" element={<MainLayout />}>
-          <Route path="home" element={<Home />} />
+          <Route index element={<Home />} />
+          <Route path="services" element={<Services />} />
           <Route path="about-us" element={<About />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="login" element={<Loginusers />} />
+          <Route path="profiles" element={<UserPrivateRoute element={<Profile />} />} />
         </Route>
 
-        {/* 🔐 Admin routes with Layout */}
         <Route path="/admin" element={<Layout />}>
           <Route
             index
             element={
-              isAuthenticated() ? (
-                <Navigate to="dashboard" />
-              ) : (
-                <Navigate to="login" />
-              )
+              isAuthenticated() ? <Navigate to="dashboard" /> : <Navigate to="login" />
             }
           />
           <Route
@@ -47,8 +54,7 @@ export default function App() {
           <Route path="dashboard" element={<PrivateRoute element={<Dashboard />} />} />
         </Route>
 
-        {/* Fallback to /home */}
-        <Route path="*" element={<Navigate to="/home" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );
