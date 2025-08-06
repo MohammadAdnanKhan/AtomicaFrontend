@@ -5,7 +5,6 @@ import { Facebook, Instagram } from 'lucide-react';
 export default function Footer() {
   return (
     <footer className="font-body">
-      {/* Top CTA Section */}
       <div className="bg-light-primary dark:bg-dark-primary text-white py-12 px-6 md:px-16 text-center">
         <h3 className="text-2xl md:text-3xl font-heading font-bold mb-4 animate-fadeIn">
           Future-ready. Globally connected. Personally committed.
@@ -23,10 +22,8 @@ export default function Footer() {
         </Link>
       </div>
 
-      {/* Footer Links and Socials */}
       <div className="bg-light-surface dark:bg-dark-surface text-light-text dark:text-dark-text border-t border-gray-200 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-10">
-          {/* Atomica Brand */}
           <div>
             <h2 className="text-2xl font-heading font-bold text-light-primary dark:text-dark-primary mb-3">
               Atomica
@@ -36,7 +33,6 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Quick Links */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2 text-sm">
@@ -44,11 +40,11 @@ export default function Footer() {
               <li><Link to="/services" className="hover:text-light-primary dark:hover:text-dark-primary transition">Services</Link></li>
               <li><Link to="/about-us" className="hover:text-light-primary dark:hover:text-dark-primary transition">About</Link></li>
               <li><Link to="/contact" className="hover:text-light-primary dark:hover:text-dark-primary transition">Contact</Link></li>
+              <li><Link to="/profiles" className="hover:text-light-primary dark:hover:text-dark-primary transition">User Profile</Link></li>
               <li><Link to="/admin/" className="hover:text-light-primary dark:hover:text-dark-primary transition">Admin</Link></li>
             </ul>
           </div>
 
-          {/* Social Media */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
             <div className="flex gap-4">
@@ -72,7 +68,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Copyright */}
         <div className="bg-light-background dark:bg-dark-background text-center py-4 text-xs text-light-secondary dark:text-dark-secondary">
           &copy; {new Date().getFullYear()} Atomica Career Academy. All rights reserved.
         </div>

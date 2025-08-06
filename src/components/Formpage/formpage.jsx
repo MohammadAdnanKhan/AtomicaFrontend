@@ -65,11 +65,6 @@ export default function FormPage() {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('isAuth');
-    navigate('/');
-  };
-
   return (
     <>
       <div className="min-h-screen font-body bg-light-gradient dark:bg-dark-gradient transition-colors duration-500 text-light-text dark:text-dark-text flex items-center justify-center px-4 py-10">
@@ -93,7 +88,7 @@ export default function FormPage() {
             <input required placeholder="State" name="state" onChange={handleChange} className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface" />
             <input required placeholder="City" name="city" onChange={handleChange} className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface" />
             <input required placeholder="Mobile" name="mobile" onChange={handleChange} className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface" />
-            <input placeholder="WhatsApp Number" name="whatsapp_mobile" onChange={handleChange} className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface" />
+            <input required placeholder="WhatsApp Number(Enter 00 if not available)" name="whatsapp_mobile" onChange={handleChange} className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface" />
             <input required placeholder="Email" name="email" type="email" onChange={handleChange} className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface" />
 
             <select required name="category" onChange={handleChange} className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface">
