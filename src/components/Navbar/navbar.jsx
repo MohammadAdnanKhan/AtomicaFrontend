@@ -18,8 +18,9 @@ export default function Navbar() {
     navigate('/admin/login');
   };
 
-  // Don't show navbar on login page
-  if (location.pathname === '/admin/login') return null;
+  //not to show navbar on login page
+  // if (location.pathname === '/admin/login') return null;
+  //just relaised, if they need to go back?? will add it later if they insist 
 
   return (
     <nav className="sticky top-0 z-50 font-heading bg-light-surface dark:bg-dark-surface shadow-md text-light-text dark:text-dark-text transition-all">
@@ -27,7 +28,7 @@ export default function Navbar() {
         <div className="flex items-center gap-2">
           <img src="/logo.jpg" alt="Logo" title="Online Education and Career Services" className="h-9 w-9 rounded-full shadow-md" />
           <Link
-            to="/home"
+            to="/"
             title="Online Education and Career Services"
             className="text-2xl font-bold tracking-wide text-light-primary dark:text-dark-primary"
           >
@@ -37,7 +38,7 @@ export default function Navbar() {
 
         <div className="hidden md:flex gap-4 items-center text-sm font-medium">
           <Link
-            to="/home"
+            to="/"
             className="hover:underline underline-offset-4 hover:text-light-accent dark:hover:text-dark-accent transition"
           >
             Home
