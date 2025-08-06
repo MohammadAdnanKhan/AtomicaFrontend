@@ -1,6 +1,6 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useState } from 'react';
-import { Moon, Sun, Menu, X } from 'lucide-react';
+import { Moon, Sun, Menu, X, User } from 'lucide-react';
 
 export default function Mainnavbar() {
   const [isDark, setIsDark] = useState(false);
@@ -8,19 +8,12 @@ export default function Mainnavbar() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // 🔧 Hide navbar on admin routes
+  //hide navbar on admin routes
   if (location.pathname.startsWith('/admin')) return null;
 
-  // ✅ Theme toggle
   const toggleDark = () => {
     setIsDark(!isDark);
     document.documentElement.classList.toggle('dark');
-  };
-
-  // ✅ Logout function
-  const logout = () => {
-    localStorage.removeItem('isAuth');
-    navigate('/admin/login');
   };
 
   return (
@@ -31,11 +24,10 @@ export default function Mainnavbar() {
             src="/logo.jpg"
             alt="Logo"
             title="Online Education and Career Services"
-            className="h-9 w-9 rounded-full shadow-md"
+            className="h-9 w-9 rounded-full shadow-md hover:scale-105 transition-transform duration-300"
           />
           <Link
-            to="/home"
-            title="Online Education and Career Services"
+            to="/"
             className="text-2xl font-bold tracking-wide text-light-primary dark:text-dark-primary"
           >
             Atomica
@@ -44,28 +36,38 @@ export default function Mainnavbar() {
 
         <div className="hidden md:flex gap-4 items-center text-sm font-medium">
           <Link
-            to="/home"
+            to="/"
             className="bg-light-primary dark:bg-dark-primary text-white px-4 py-1.5 rounded-md hover:scale-105 transition-transform shadow-sm"
           >
             Home
           </Link>
           <Link
+            to="/services"
+            className="hover:underline underline-offset-4 hover:text-light-primary dark:hover:text-dark-primary transition"
+          >
+            Services
+          </Link>
+          <Link
             to="/about-us"
-            className="hover:underline underline-offset-4 hover:text-light-accent dark:hover:text-dark-accent transition"
+            className="hover:underline underline-offset-4 hover:text-light-primary dark:hover:text-dark-primary transition"
           >
             About
           </Link>
-
-          <button
-            onClick={toggleDark}
-            className="ml-2 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
-            aria-label="Toggle theme"
+          <Link
+            to="/contact"
+            className="hover:underline underline-offset-4 hover:text-light-primary dark:hover:text-dark-primary transition"
           >
-            {isDark ? <Sun size={18} /> : <Moon size={18} />}
-          </button>
-        </div>
+            Contact
+          </Link>
 
-        <div className="md:hidden flex items-center gap-2">
+          <Link
+            to="/profiles"
+            className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+            title="User Profile"
+          >
+            <User size={18} />
+          </Link>
+
           <button
             onClick={toggleDark}
             className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
@@ -73,43 +75,66 @@ export default function Mainnavbar() {
           >
             {isDark ? <Sun size={18} /> : <Moon size={18} />}
           </button>
+        </div>
+
+        <div className="md:hidden flex items-center gap-2">
+          <Link
+            to="/profiles"
+            className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+            title="User Profile"
+          >
+            <User size={16} />
+          </Link>
+          <button
+            onClick={toggleDark}
+            className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+            aria-label="Toggle theme"
+          >
+            {isDark ? <Sun size={16} /> : <Moon size={18} />}
+          </button>
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition"
             aria-label="Toggle menu"
           >
-            {isOpen ? <X size={20} /> : <Menu size={20} />}
+            {isOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
         </div>
       </div>
 
       {isOpen && (
-        <div className="md:hidden bg-light-surface dark:bg-dark-surface px-6 pb-4 flex flex-col gap-3 text-sm font-medium border-t border-gray-200 dark:border-gray-700">
+        <div className="md:hidden bg-light-surface dark:bg-dark-surface px-6 pb-4 pt-2 flex flex-col gap-4 text-sm font-medium border-t border-gray-200 dark:border-gray-700">
           <Link
-            to="/admin/dashboard"
+            to="/"
             onClick={() => setIsOpen(false)}
-            className="hover:text-light-accent dark:hover:text-dark-accent transition"
+            className="hover:text-light-primary dark:hover:text-dark-primary transition"
           >
-            Dashboard
+            Home
           </Link>
           <Link
-            to="/admin/form"
+            to="/services"
             onClick={() => setIsOpen(false)}
-            className="hover:text-light-accent dark:hover:text-dark-accent transition"
+            className="hover:text-light-primary dark:hover:text-dark-primary transition"
           >
-            Form
+            Services
           </Link>
-          <button
-            onClick={() => {
-              setIsOpen(false);
-              logout();
-            }}
-            className="bg-light-accent dark:bg-dark-accent text-white px-4 py-1.5 rounded-md mt-1 w-fit"
+          <Link
+            to="/about-us"
+            onClick={() => setIsOpen(false)}
+            className="hover:text-light-primary dark:hover:text-dark-primary transition"
           >
-            Logout
-          </button>
+            About
+          </Link>
+          <Link
+            to="/contact"
+            onClick={() => setIsOpen(false)}
+            className="hover:text-light-primary dark:hover:text-dark-primary transition"
+          >
+            Contact
+          </Link>
         </div>
       )}
+
     </nav>
   );
 }
