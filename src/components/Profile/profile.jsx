@@ -120,16 +120,27 @@ export default function Profile() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {Object.keys(formData).map((key) => (
-              <input
-                key={key}
-                name={key}
-                value={formData[key]}
-                onChange={handleChange}
-                placeholder={key.replace('_', ' ').toUpperCase()}
-                className="w-full px-4 py-3 rounded-lg border border-light-secondary dark:border-dark-secondary bg-light-background dark:bg-dark-background text-light-text dark:text-dark-text focus:outline-none focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent"
-              />
-            ))}
+            {Object.entries(formData).map(([key, value]) => {
+              if (key === 'id') return null;
+
+              return (
+                <div key={key} className="flex flex-col">
+                  <label
+                    htmlFor={key}
+                    className="mb-2 font-medium text-light-secondary dark:text-dark-secondary font-heading"
+                  >
+                    {key.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())}
+                  </label>
+                  <input
+                    id={key}
+                    name={key}
+                    value={value}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-lg border border-light-secondary dark:border-dark-secondary bg-light-background dark:bg-dark-background text-light-text dark:text-dark-text focus:outline-none focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent"
+                  />
+                </div>
+              );
+            })}
           </div>
 
           <div>
