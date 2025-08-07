@@ -12,7 +12,7 @@ export default function FormPage() {
     state: '',
     city: '',
     mobile: '',
-    whatsapp_mobile: '',
+    mobile_whatsapp: '',
     email: '',
     category: '',
     subcategory: '',
@@ -33,8 +33,37 @@ export default function FormPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.resume) {
-      alert('Please upload a resume (PDF).');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const mobileRegex = /^\d{10}$/;
+    const allowedFileTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+
+    const {
+      name, age, gender, state, city,
+      mobile, mobile_whatsapp, email, category, resume
+    } = formData;
+
+    if (!resume) {
+      alert('Please upload a resume.');
+      return;
+    }
+
+    if (!allowedFileTypes.includes(resume.type)) {
+      alert('Resume must be a PDF or Word document (DOC/DOCX).');
+      return;
+    }
+
+    if (!emailRegex.test(email)) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+
+    if (!mobileRegex.test(mobile)) {
+      alert('Mobile number must be 10 digits.');
+      return;
+    }
+
+    if (mobile_whatsapp !== '00' && !mobileRegex.test(mobile_whatsapp)) {
+      alert('WhatsApp number must be 10 digits or "00".');
       return;
     }
 
@@ -47,17 +76,9 @@ export default function FormPage() {
       await axios.post('https://atomicabackend.onrender.com/api/submit', data);
       alert('Submitted successfully!');
       setFormData({
-        name: '',
-        age: '',
-        gender: '',
-        state: '',
-        city: '',
-        mobile: '',
-        whatsapp_mobile: '',
-        email: '',
-        category: '',
-        subcategory: '',
-        resume: null,
+        name: '', age: '', gender: '', state: '', city: '',
+        mobile: '', mobile_whatsapp: '', email: '',
+        category: '', subcategory: '', resume: null
       });
     } catch (err) {
       console.error(err);
@@ -88,7 +109,7 @@ export default function FormPage() {
             <input required placeholder="State" name="state" onChange={handleChange} className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface" />
             <input required placeholder="City" name="city" onChange={handleChange} className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface" />
             <input required placeholder="Mobile" name="mobile" onChange={handleChange} className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface" />
-            <input required placeholder="WhatsApp Number(Enter 00 if not available)" name="whatsapp_mobile" onChange={handleChange} className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface" />
+            <input required placeholder="WhatsApp Number(Enter 00 if not available)" name="mobile_whatsapp" onChange={handleChange} className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface" />
             <input required placeholder="Email" name="email" type="email" onChange={handleChange} className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface" />
 
             <select required name="category" onChange={handleChange} className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface">
