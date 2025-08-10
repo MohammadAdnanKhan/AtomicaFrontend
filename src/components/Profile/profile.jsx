@@ -1,227 +1,461 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 export default function Profile() {
   const navigate = useNavigate();
   const userId = localStorage.getItem('userId');
+  const userName = localStorage.getItem('userName');
 
-  const [formData, setFormData] = useState({
-    name: '', age: '', gender: '', state: '', city: '',
-    mobile: '', mobile_whatsapp: '', email: '', category: '', skills: '',
+  const API_BASE = 'https://atomicabackend.onrender.com/api';
+  const PASSWORD_BASE = 'https://atomicabackend.onrender.com/api';
+
+  const [profile, setProfile] = useState({
+    name: '',
+    age: '',
+    gender: '',
+    state: '',
+    city: '',
+    mobile: '',
+    mobile_whatsapp: '',
+    email: '',
+    category: '',
+    subcategory: '',
+    main_subcategory: '',
   });
+const categoryToMainSubcategories = {
+    MD: [
+      'Internal Medicine',
+      'General Surgeon',
+      'Pediatrician',
+      'Obstetrician and Gynaecologist',
+      'Psychiatrist',
+      'Neurologist',
+      'Dermatologist',
+      'Radiologist',
+      'Pathologist',
+      'Emergency Medicine',
+      'Anesthetist',
+      'Geriatrician',
+      'Gastroenterologist',
+      'General Practitioner'
+    ],
+    MBBS: [
+      'House Surgeon',
+      'Medical Officer',
+      'General Practitioner',
+      'Resident Doctor',
+      'Junior Doctor',
+      'Clinical Assistant',
+      'Emergency Medical Officer',
+      'Rural Medical Officer',
+      'Medical Intern'
+    ],
+    BDS: [
+      'General Dentist',
+      'Oral Surgeon',
+      'Orthodontist',
+      'Prosthodontist',
+      'Pedodontist',
+      'Periodontist',
+      'Endodontist',
+      'Oral Pathologist',
+      'Public Health Dentist'
+    ],
+    MDS: [
+      'Oral and Maxillofacial Surgery',
+      'Orthodontics',
+      'Prosthodontics',
+      'Periodontics',
+      'Endodontics',
+      'Pedodontics',
+      'Oral Medicine and Radiology',
+      'Oral Pathology',
+      'Community Dentistry'
+    ],
+    IT: [
+      'Frontend Developer',
+      'Backend Developer',
+      'Full Stack Developer',
+      'DevOps Engineer',
+      'Data Scientist',
+      'AI/ML Engineer',
+      'Cybersecurity Specialist',
+      'Database Administrator',
+      'QA Tester',
+      'UI/UX Designer',
+      'IT Support Specialist',
+      'Cloud Engineer'
+    ],
+    Chef: [
+      'Executive Chef',
+      'Sous Chef',
+      'Pastry Chef',
+      'Commis Chef',
+      'Chef de Partie',
+      'Line Cook',
+      'Prep Cook',
+      'Garde Manger',
+      'Kitchen Manager'
+    ],
+    Waiters: [
+      'Head Waiter',
+      'Server',
+      'Food Runner',
+      'Busser',
+      'Bartender',
+      'Host/Hostess',
+      'Banquet Server',
+      'Room Service Attendant'
+    ],
+    GeneralCategories: [
+      'Receptionist',
+      'Admin Assistant',
+      'Data Entry Operator',
+      'Customer Service Representative',
+      'Call Center Agent',
+      'Office Boy',
+      'Cleaner',
+      'Security Guard',
+      'Driver'
+    ],
+    Warehouse: [
+      'Warehouse Manager',
+      'Forklift Operator',
+      'Inventory Clerk',
+      'Material Handler',
+      'Packer',
+      'Picker',
+      'Shipping and Receiving Clerk',
+      'Logistics Coordinator',
+      'Loader/Unloader'
+    ],
+    "Lab Technicians": [
+      'Medical Lab Technician',
+      'Pathology Technician',
+      'Radiology Technician',
+      'Microbiology Technician',
+      'Biochemistry Technician',
+      'Hematology Technician',
+      'Cytogenetic Technician',
+      'Phlebotomist',
+      'X-Ray Technician'
+    ]
+  };
+  const [resumeFile, setResumeFile] = useState(null);
 
-  const [resume, setResume] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
+
+  const [profileLoading, setProfileLoading] = useState(false);
+  const [profileMessage, setProfileMessage] = useState('');
+
+  const [passwordLoading, setPasswordLoading] = useState(false);
   const [passwordMessage, setPasswordMessage] = useState('');
 
   useEffect(() => {
-    async function fetchProfile() {
-      try {
-        const res = await axios.get(`https://atomicabackend.onrender.com/api/candidates/${userId}`);
-        setFormData(res.data);
-      } catch (err) {
-        console.error('Failed to fetch profile:', err);
-      } finally {
-        setLoading(false);
-      }
+    if (!userId) {
+      navigate('/login');
+      return;
     }
 
-    if (userId) fetchProfile();
-  }, [userId]);
+    const fetchProfile = async () => {
+      try {
+        const res = await axios.get(`${API_BASE}/candidates/${userId}`);
+        setProfile({
+          name: res.data.name || '',
+          age: res.data.age || '',
+          gender: res.data.gender || '',
+          state: res.data.state || '',
+          city: res.data.city || '',
+          mobile: res.data.mobile || '',
+          mobile_whatsapp: res.data.mobile_whatsapp || '',
+          email: res.data.email || '',
+          category: res.data.category || '',
+          subcategory: res.data.subcategory || '',
+          main_subcategory: res.data.main_subcategory || '',
+        });
+      } catch (err) {
+        console.error('Failed to fetch profile:', err);
+        alert('Failed to fetch profile data.');
+      }
+    };
+
+    fetchProfile();
+  }, [userId, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setProfile((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-
-    if (file && !allowedTypes.includes(file.type)) {
-      alert("Invalid file type. Only PDF or DOC/DOCX allowed.");
-      setResume(null);
-    } else {
-      setResume(file);
-    }
+    setResumeFile(e.target.files[0] || null);
   };
 
-  const handleSubmit = async (e) => {
+  const handleProfileSubmit = async (e) => {
     e.preventDefault();
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const mobileRegex = /^[0-9]{10}$/;
-
-    if (!emailRegex.test(formData.email)) {
-      alert("Invalid email format.");
-      return;
-    }
-
-    if (!mobileRegex.test(formData.mobile) || !mobileRegex.test(formData.mobile_whatsapp)) {
-      alert("Mobile numbers must be 10 digits.");
-      return;
-    }
-
-    const data = new FormData();
-
-    for (const key in formData) {
-      if (formData[key] !== undefined && formData[key] !== null) {
-        data.append(key, formData[key]);
+    setProfileLoading(true);
+    setProfileMessage('');
+    try {
+      const formData = new FormData();
+      for (const key in profile) {
+        formData.append(key, profile[key]);
       }
-    }
+      if (resumeFile) {
+        formData.append('resume', resumeFile);
+      }
 
-    if (resume) {
-      data.append("resume", resume);
+      const res = await axios.put(`${API_BASE}/candidates/${userId}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
+      setProfileMessage(res.data.message || 'Profile updated successfully');
+    } catch (err) {
+      console.error('Profile update error:', err);
+      setProfileMessage(err.response?.data?.error || 'Failed to update profile');
+    }
+    setProfileLoading(false);
+  };
+
+  const handlePasswordSubmit = async (e) => {
+    e.preventDefault();
+    setPasswordLoading(true);
+    setPasswordMessage('');
+
+    if (!oldPassword || !newPassword) {
+      alert('Please fill both old and new password fields');
+      setPasswordLoading(false);
+      return;
     }
 
     try {
-      const response = await axios.put(
-        `https://atomicabackend.onrender.com/api/candidates/${userId}`,
-        data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const res = await axios.put(`${PASSWORD_BASE}/update-password/${userId}`, {
+        oldPassword,
+        newPassword,
+      });
 
-      alert("Profile updated successfully!");
+      setPasswordMessage(res.data.message || 'Password updated successfully');
+      setOldPassword('');
+      setNewPassword('');
     } catch (err) {
-      console.error("Update failed:", err.response?.data || err.message);
-      alert("Update failed. Please try again.");
+      console.error('Password update error:', err);
+      setPasswordMessage(err.response?.data?.error || 'Failed to update password');
     }
+
+    setPasswordLoading(false);
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('userAuth');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('userName');
-    navigate('/');
+    localStorage.clear();
+    navigate('/login');
   };
 
-  if (loading) {
-    return <div className="text-center mt-10 text-gray-600">Loading...</div>;
-  }
+return (
+  <>
+    <div className="min-h-screen font-body bg-light-gradient dark:bg-dark-gradient transition-colors duration-500 text-light-text dark:text-dark-text flex items-center justify-center px-4 py-10">
+      <div className="w-full max-w-2xl bg-white/60 dark:bg-dark-surface/60 backdrop-blur-md shadow-xl rounded-2xl p-8 space-y-8 border border-gray-200 dark:border-gray-700 transition-all">
+        <h1 className="text-3xl font-heading font-bold text-center text-light-primary dark:text-dark-primary">
+          Welcome, {userName}
+        </h1>
 
-  return (
-    <section className="min-h-screen bg-light-background dark:bg-dark-background text-light-text dark:text-dark-text animate-fadeIn px-6 md:px-10 py-12 transition-colors duration-500 font-body">
-      <div className="max-w-4xl mx-auto bg-light-surface dark:bg-dark-surface rounded-2xl shadow-xl p-8 md:p-10 space-y-8">
-        
-        <h2 className="text-3xl md:text-4xl font-heading font-bold text-center text-light-primary dark:text-dark-primary">
-          Edit Profile
-        </h2>
+        <div>
+          <h2 className="text-2xl font-heading font-semibold text-light-primary dark:text-dark-primary mb-4">
+            Update Profile
+          </h2>
+          <form onSubmit={handleProfileSubmit} encType="multipart/form-data" className="space-y-4">
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {Object.entries(formData).map(([key, value]) => {
-              if (key === 'id') return null;
+            <input
+              type="text"
+              name="name"
+              value={profile.name}
+              onChange={handleChange}
+              required
+              placeholder="Name"
+              className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface focus:outline-none focus:ring-2 focus:ring-light-primary dark:focus:ring-dark-primary transition"
+            />
 
-              return (
-                <div key={key} className="flex flex-col">
-                  <label
-                    htmlFor={key}
-                    className="mb-2 font-medium text-light-secondary dark:text-dark-secondary font-heading"
-                  >
-                    {key.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())}
-                  </label>
-                  <input
-                    id={key}
-                    name={key}
-                    value={value}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border border-light-secondary dark:border-dark-secondary bg-light-background dark:bg-dark-background text-light-text dark:text-dark-text focus:outline-none focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent"
-                  />
-                </div>
-              );
-            })}
-          </div>
+            <input
+              type="number"
+              name="age"
+              value={profile.age}
+              onChange={handleChange}
+              placeholder="Age"
+              className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface focus:outline-none focus:ring-2 focus:ring-light-primary dark:focus:ring-dark-primary transition"
+            />
 
-          <div>
-            <label className="block mb-2 font-medium text-light-secondary dark:text-dark-secondary font-heading">
-              Upload Resume
-            </label>
+            <select
+              name="gender"
+              value={profile.gender}
+              onChange={handleChange}
+              className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface focus:outline-none focus:ring-2 focus:ring-light-primary dark:focus:ring-dark-primary transition"
+            >
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+
+            <input
+              type="text"
+              name="state"
+              value={profile.state}
+              onChange={handleChange}
+              placeholder="State"
+              className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface focus:outline-none focus:ring-2 focus:ring-light-primary dark:focus:ring-dark-primary transition"
+            />
+
+            <input
+              type="text"
+              name="city"
+              value={profile.city}
+              onChange={handleChange}
+              placeholder="City"
+              className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface focus:outline-none focus:ring-2 focus:ring-light-primary dark:focus:ring-dark-primary transition"
+            />
+
+            <input
+              type="text"
+              name="mobile"
+              value={profile.mobile}
+              onChange={handleChange}
+              placeholder="Mobile"
+              className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface focus:outline-none focus:ring-2 focus:ring-light-primary dark:focus:ring-dark-primary transition"
+            />
+
+            <input
+              type="text"
+              name="mobile_whatsapp"
+              value={profile.mobile_whatsapp}
+              onChange={handleChange}
+              placeholder="WhatsApp Mobile"
+              className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface focus:outline-none focus:ring-2 focus:ring-light-primary dark:focus:ring-dark-primary transition"
+            />
+
+            <input
+              type="email"
+              name="email"
+              value={profile.email}
+              onChange={handleChange}
+              required
+              placeholder="Email"
+              className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface focus:outline-none focus:ring-2 focus:ring-light-primary dark:focus:ring-dark-primary transition"
+            />
+
+            <select
+              name="category"
+              value={profile.category}
+              onChange={handleChange}
+              required
+              className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface focus:outline-none focus:ring-2 focus:ring-light-primary dark:focus:ring-dark-primary transition"
+            >
+              <option value="">Select Category</option>
+              {Object.keys(categoryToMainSubcategories).map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
+
+            <select
+              name="main_subcategory"
+              value={profile.main_subcategory}
+              onChange={handleChange}
+              disabled={!profile.category}
+              required={!!profile.category}
+              className={`w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface focus:outline-none focus:ring-2 focus:ring-light-primary dark:focus:ring-dark-primary transition ${
+                !profile.category ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
+            >
+              <option value="">Select Main Subcategory</option>
+              {profile.category &&
+                categoryToMainSubcategories[profile.category]?.map((msc) => (
+                  <option key={msc} value={msc}>
+                    {msc}
+                  </option>
+                ))}
+            </select>
+
+            <input
+              type="text"
+              name="subcategory"
+              value={profile.subcategory}
+              onChange={handleChange}
+              placeholder="Subcategory (Skills, comma-separated)"
+              className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface focus:outline-none focus:ring-2 focus:ring-light-primary dark:focus:ring-dark-primary transition"
+            />
+
             <input
               type="file"
               accept=".pdf,.doc,.docx"
               onChange={handleFileChange}
-              className="block w-full text-sm text-light-text dark:text-dark-text file:mr-4 file:py-2 file:px-5 file:rounded-full file:border-0 file:bg-light-primary dark:file:bg-dark-primary file:text-white hover:file:bg-light-accent dark:hover:file:bg-dark-accent"
+              className="w-full file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-light-primary file:text-white hover:file:opacity-90 dark:file:bg-dark-primary transition"
             />
-            {resume && (
-              <p className="text-sm text-light-secondary dark:text-dark-secondary mt-2">
-                Selected: {resume.name}
-              </p>
-            )}
-          </div>
 
-          <div className="flex flex-col md:flex-row gap-4">
             <button
               type="submit"
-              className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition duration-200"
+              disabled={profileLoading}
+              className="w-full py-3 font-heading bg-light-primary dark:bg-dark-primary text-white rounded-lg font-semibold hover:opacity-90 transition"
             >
-              Save Changes
+              {profileLoading ? 'Updating...' : 'Update Profile'}
             </button>
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition duration-200"
-            >
-              Logout
-            </button>
-          </div>
-        </form>
+          </form>
 
-        <div className="border-t border-light-secondary dark:border-dark-secondary pt-8">
-          <h3 className="text-2xl font-heading font-semibold mb-5 text-light-primary dark:text-dark-primary">
-            Change Password
-          </h3>
-
-          {passwordMessage && (
-            <p className="text-light-primary dark:text-dark-primary font-medium mb-4">
-              {passwordMessage}
-            </p>
+          {profileMessage && (
+            <p className="mt-3 text-center text-green-600 dark:text-green-400">{profileMessage}</p>
           )}
+        </div>
 
-          <div className="space-y-5">
+        <hr className="my-8 border-gray-300 dark:border-gray-600" />
+
+        <div>
+          <h2 className="text-2xl font-heading font-semibold text-light-primary dark:text-dark-primary mb-4">
+            Change Password
+          </h2>
+          <form onSubmit={handlePasswordSubmit} className="space-y-4">
             <input
               type="password"
-              placeholder="Old Password"
               value={oldPassword}
               onChange={(e) => setOldPassword(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-light-secondary dark:border-dark-secondary bg-light-background dark:bg-dark-background text-light-text dark:text-dark-text focus:outline-none focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent"
+              required
+              placeholder="Old Password"
+              className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface focus:outline-none focus:ring-2 focus:ring-light-primary dark:focus:ring-dark-primary transition"
             />
+
             <input
               type="password"
-              placeholder="New Password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-light-secondary dark:border-dark-secondary bg-light-background dark:bg-dark-background text-light-text dark:text-dark-text focus:outline-none focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent"
+              required
+              placeholder="New Password"
+              className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface focus:outline-none focus:ring-2 focus:ring-light-primary dark:focus:ring-dark-primary transition"
             />
 
             <button
-              onClick={async () => {
-                try {
-                  const res = await axios.put(
-                    `https://atomicabackend.onrender.com/api/update-password/${userId}`,
-                    { oldPassword, newPassword }
-                  );
-                  setPasswordMessage(res.data.message);
-                  setOldPassword('');
-                  setNewPassword('');
-                } catch (err) {
-                  const msg = err.response?.data?.error || 'Password update failed';
-                  setPasswordMessage(msg);
-                }
-              }}
-              className="w-full bg-light-primary dark:bg-dark-primary text-white py-3 rounded-lg font-semibold hover:bg-light-accent dark:hover:bg-dark-accent transition duration-200"
+              type="submit"
+              disabled={passwordLoading}
+              className="w-full py-3 font-heading bg-light-primary dark:bg-dark-primary text-white rounded-lg font-semibold hover:opacity-90 transition"
             >
-              Update Password
+              {passwordLoading ? 'Updating...' : 'Change Password'}
             </button>
-          </div>
+          </form>
+
+          {passwordMessage && (
+            <p className="mt-3 text-center text-green-600 dark:text-green-400">{passwordMessage}</p>
+          )}
+        </div>
+
+        <div className="flex justify-center mt-10">
+          <button
+            onClick={handleLogout}
+            className="py-2 px-6 font-heading bg-red-600 dark:bg-red-700 text-white rounded-lg font-semibold hover:bg-red-700 dark:hover:bg-red-800 transition"
+          >
+            Logout
+          </button>
         </div>
       </div>
-    </section>
-  );
+    </div>
+  </>
+);
+
 }
