@@ -17,6 +17,7 @@ export default function FormPage() {
     category: '',
     subcategory: '',
     resume: null,
+    enteredby: ''
   });
 
   const categories = ['MBBS', 'MD', 'BDS', 'MDS', 'IT', 'Chef', 'Waiters', 'General Categories', 'Warehouse', 'Lab Technicians'];
@@ -118,7 +119,13 @@ export default function FormPage() {
             </select>
 
             <input placeholder="Skills (comma-separated)" name="subcategory" onChange={handleChange} className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface" />
-
+            <input
+              required
+              placeholder="Entered by"
+              name="enteredby"
+              onChange={handleChange}
+              className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface"
+            />
             <input required 
               type="file"
               name="resume"

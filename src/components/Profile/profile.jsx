@@ -8,11 +8,10 @@ export default function Profile() {
 
   const [formData, setFormData] = useState({
     name: '', age: '', gender: '', state: '', city: '',
-    mobile: '', mobile_whatsapp: '', email: '', category: '', subcategory: '',
+    mobile: '', mobile_whatsapp: '', email: '', category: '', skills: '',
   });
 
   const [resume, setResume] = useState(null);
-  const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(true);
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -43,11 +42,10 @@ export default function Profile() {
     const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
 
     if (file && !allowedTypes.includes(file.type)) {
-      setMessage("Invalid file type. Only PDF or DOC/DOCX allowed.");
+      alert("Invalid file type. Only PDF or DOC/DOCX allowed.");
       setResume(null);
     } else {
       setResume(file);
-      setMessage('');
     }
   };
 
@@ -58,12 +56,12 @@ export default function Profile() {
     const mobileRegex = /^[0-9]{10}$/;
 
     if (!emailRegex.test(formData.email)) {
-      setMessage("Invalid email format.");
+      alert("Invalid email format.");
       return;
     }
 
     if (!mobileRegex.test(formData.mobile) || !mobileRegex.test(formData.mobile_whatsapp)) {
-      setMessage("Mobile numbers must be 10 digits.");
+      alert("Mobile numbers must be 10 digits.");
       return;
     }
 
@@ -80,16 +78,20 @@ export default function Profile() {
     }
 
     try {
-      const response = await axios.put(`https://atomicabackend.onrender.com/api/candidates/${userId}`, data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axios.put(
+        `https://atomicabackend.onrender.com/api/candidates/${userId}`,
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
-      setMessage("Profile updated successfully!");
+      alert("Profile updated successfully!");
     } catch (err) {
       console.error("Update failed:", err.response?.data || err.message);
-      setMessage("Update failed. Please try again.");
+      alert("Update failed. Please try again.");
     }
   };
 
@@ -111,12 +113,6 @@ export default function Profile() {
         <h2 className="text-3xl md:text-4xl font-heading font-bold text-center text-light-primary dark:text-dark-primary">
           Edit Profile
         </h2>
-
-        {message && (
-          <p className="text-center text-light-primary dark:text-dark-primary font-medium">
-            {message}
-          </p>
-        )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
