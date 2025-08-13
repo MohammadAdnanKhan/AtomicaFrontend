@@ -1,4 +1,4 @@
-import { PhoneCall, MessageSquareText } from 'lucide-react';
+import { PhoneCall, MessageSquareText, MapPin } from 'lucide-react';
 import React from 'react';
 
 const contacts = [
@@ -72,8 +72,20 @@ function Contact() {
           ))}
         </div>
 
-        <div className="mt-16 animate-bounce font-body text-light-secondary dark:text-dark-secondary text-sm">
-          🚀 We’re excited to hear from you!
+        <div className="mt-12 bg-light-surface dark:bg-dark-surface rounded-xl p-6 shadow-xl border border-light-primary dark:border-dark-primary max-w-2xl mx-auto hover:scale-105 transform transition duration-300">
+          <h3 className="text-xl font-semibold font-heading mb-4 flex items-center justify-center gap-2">
+            <MapPin size={20} className="text-light-primary dark:text-dark-primary" />
+            Office Address
+          </h3>
+          <p className="text-lg text-light-secondary dark:text-dark-secondary leading-relaxed">
+            Old No 10, New No 14, Muthuthottam, 2nd Street,<br />
+            Kodambakkam, Chennai, Tamil Nadu, India<br />
+            Pin Code - 600 024
+          </p>
+        </div>
+
+        <div className="mt-16 animate-bounce font-heading text-light-secondary dark:text-dark-secondary text-sm">
+          We’re excited to hear from you!
         </div>
       </div>
     </section>
