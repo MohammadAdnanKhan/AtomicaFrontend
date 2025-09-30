@@ -12,6 +12,7 @@ import Services from './components/Services/services';
 import Contact from './components/Contact/contact';
 import Profile from './components/Profile/profile';
 import Loginusers from './components/Loginusers/loginusers';
+import ChangePassword from './components/ChangeAdminPass/ChangeAdminPass';
 
 const isAuthenticated = () => localStorage.getItem('isAuth') === 'true';
 const isUserAuthenticated = () => localStorage.getItem('userAuth') === 'true';
@@ -46,12 +47,11 @@ export default function App() {
           />
           <Route
             path="login"
-            element={
-              isAuthenticated() ? <Navigate to="dashboard" /> : <Login />
-            }
+            element={isAuthenticated() ? <Navigate to="dashboard" /> : <Login />}
           />
           <Route path="form" element={<PrivateRoute element={<FormPage />} />} />
           <Route path="dashboard" element={<PrivateRoute element={<Dashboard />} />} />
+          <Route path="change-password" element={<PrivateRoute element={<ChangePassword />} />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
