@@ -41,7 +41,7 @@ export default function Footer() {
               <li><Link to="/about-us" className="hover:text-light-primary dark:hover:text-dark-primary transition">About</Link></li>
               <li><Link to="/contact" className="hover:text-light-primary dark:hover:text-dark-primary transition">Contact</Link></li>
               <li><Link to="/profiles" className="hover:text-light-primary dark:hover:text-dark-primary transition">User Profile</Link></li>
-              <li><Link to="/admin/" className="hover:text-light-primary dark:hover:text-dark-primary transition">Admin</Link></li>
+              <li><Link to="/admin/dashboard" className="hover:text-light-primary dark:hover:text-dark-primary transition">Admin</Link></li>
             </ul>
           </div>
 
