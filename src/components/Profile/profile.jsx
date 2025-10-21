@@ -27,6 +27,7 @@ export default function Profile() {
     main_subcategory: "",
     qualification: "",
     experience: "",
+    preferredcountry:"",
     fresher: false,
     referredby: "",
     enteredby: "",
@@ -549,6 +550,15 @@ const handleLogout = () => {
                 value={profile.experience}
                 onChange={handleChange}
                 placeholder="Experience (years in decimal)"
+                className="w-full p-3 rounded-lg border"
+              />
+
+              <input
+                type="text"
+                name="preferredcountry"
+                value={profile.preferredcountry}
+                onChange={handleChange}
+                placeholder="Preferred Country"
                 className="w-full p-3 rounded-lg border"
               />
             <select
