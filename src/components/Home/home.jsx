@@ -187,7 +187,7 @@ export default function Home() {
 
               <motion.div variants={fadeUp}>
                 <a
-                  href="#services"
+                  href="services"
                   className="inline-block mt-4 px-10 py-4 rounded-full font-semibold bg-gradient-to-r from-light-primary to-light-secondary dark:from-dark-primary dark:to-dark-secondary text-light-background dark:text-dark-background shadow-xl transform transition-all hover:-translate-y-1 hover:shadow-2xl"
                 >
                   Get Started
