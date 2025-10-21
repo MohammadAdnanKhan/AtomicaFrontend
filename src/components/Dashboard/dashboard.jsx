@@ -433,7 +433,7 @@ return (
         {/* Main Subcategory filter */}
         <div className="bg-white/30 dark:bg-dark-surface/40 backdrop-blur-md border border-white/40 dark:border-dark-primary/30 rounded-lg shadow-sm p-3">
           <label className="block text-sm font-semibold mb-2 text-black dark:text-gray-200">
-            Main Skill
+            Main Subcategory
           </label>
           <select
             value={selectedMainSubcategory}
@@ -444,7 +444,7 @@ return (
             }
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white/70 dark:bg-dark-surface/60 text-black dark:text-gray-100 focus:ring-2 focus:ring-light-primary dark:focus:ring-dark-primary"
           >
-            <option value="All">All</option>
+            
             {mainSubcategoryOptions.map((subcat) => (
               <option key={subcat} value={subcat}>
                 {subcat}
@@ -571,15 +571,16 @@ return (
           <thead className="bg-light-primary/90 dark:bg-dark-primary text-white sticky top-0 shadow-sm">
             <tr>
               {[
-                "Name","Category","Sub Category","Skills","Qualification",
-                "Experience","Fresher","Age","Gender","City","State",
-                "Country","Mobile","WhatsApp Number","Email",
-                "Referred By","Entered By","Date of Entry","Actions"
+                "Name", "Category", "Sub Category", "Skills", "Qualification",
+                "Experience", "Fresher", "Age", "Gender", "City", "State",
+                "Country", "Preferred Country", "Mobile", "WhatsApp Number", "Email",
+                "Referred By", "Entered By", "Date of Entry", "Actions"
               ].map((h) => (
                 <th key={h} className="px-4 py-3 text-left font-semibold">{h}</th>
               ))}
             </tr>
           </thead>
+
           <tbody>
             {filteredCandidates.slice(0, visibleCount).map((c, idx) => (
               <tr
@@ -604,6 +605,7 @@ return (
                 <td className="px-4 py-3">{c.city}</td>
                 <td className="px-4 py-3">{c.state}</td>
                 <td className="px-4 py-3">{c.country}</td>
+                <td className="px-4 py-3">{c.preferredcountry || "—"}</td>
                 <td className="px-4 py-3">{c.mobile}</td>
                 <td className="px-4 py-3">{c.mobile_whatsapp}</td>
                 <td className="px-4 py-3">{c.email}</td>
