@@ -25,23 +25,40 @@ export default {
           text: '#F8FAFC',           
           secondary: '#94A3B8',      
         },
-
       },
+
       backgroundImage: {
         'light-gradient': 'linear-gradient(to bottom right, #e0f7ff, #f8f9fc)',
         'dark-gradient': 'linear-gradient(to bottom right, #0f2027, #203a43, #2c5364)',
       },
+
       fontFamily: {
         heading: ['Poppins', 'sans-serif'],
         body: ['Inter', 'sans-serif'],
       },
+
       animation: {
         fadeIn: 'fadeIn 1s ease-out both',
+        gradientShift: 'gradientShift 12s ease-in-out infinite',
+        subtleFloat: 'floatSubtle 5s ease-in-out infinite',
       },
+
       keyframes: {
         fadeIn: {
           '0%': { opacity: 0, transform: 'scale(0.95)' },
           '100%': { opacity: 1, transform: 'scale(1)' },
+        },
+
+        gradientShift: {
+          '0%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+          '100%': { backgroundPosition: '0% 50%' },
+        },
+
+        floatSubtle: {
+          '0%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-8px)' },
+          '100%': { transform: 'translateY(0px)' },
         },
       },
     },
