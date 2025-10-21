@@ -24,6 +24,7 @@ export default function FormPage() {
     subcategory: '',
     qualification: '',
     experience: '',
+    preferredCountry:'',
     fresher: 'No',
     referredby: '',
     enteredby: '',
@@ -370,7 +371,7 @@ const handleSubmit = async (e) => {
   const {
     name, age, gender, state, city, country,
     mobile, mobile_whatsapp, email, category, main_subcategory, resume,
-    subcategory, qualification, experience, fresher, referredby, enteredby
+    subcategory, qualification, experience, preferredCountry, fresher, referredby, enteredby
   } = formData;
 
   // Validations
@@ -399,6 +400,7 @@ const handleSubmit = async (e) => {
   data.append('qualification', qualification || '');
   data.append('experience', experience || '');
   data.append('fresher', fresher); // backend converts to boolean
+  data.append('preferredCountry',preferredCountry);
   data.append('referredby', referredby || '');
   data.append('enteredby', enteredby || '');
   data.append('resume', resume);
@@ -414,7 +416,7 @@ const handleSubmit = async (e) => {
       name: '', age: '', gender: '', state: '', city: '', country: '',
       mobile: '', mobile_whatsapp: '', email: '',
       category: '', main_subcategory: '', subcategory: '',
-      qualification: '', experience: '', fresher: 'No',
+      qualification: '', experience: '', preferredCountry:'', fresher: 'No',
       referredby: '', enteredby: '', resume: null
     });
   } catch (err) {
@@ -508,14 +510,18 @@ const handleSubmit = async (e) => {
                 <option>Female</option>
                 <option>Other</option>
               </select>
-              <input
-                required
-                placeholder="Country"
-                name="country"
-                onChange={handleChange}
-                value={formData.country}
-                className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface"
-              />
+              <select 
+              required 
+              name="country" 
+              onChange={handleChange} 
+              value={formData.country} 
+              className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface" > 
+              <option value="">Select Country</option> 
+              {countryList.map((c) => ( 
+                <option key={c} value={c}> {c} </option> 
+                ))} 
+              </select>
+
               <input
                 required
                 placeholder="State"
@@ -592,13 +598,18 @@ const handleSubmit = async (e) => {
                 value={formData.subcategory}
                 className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface"
               />
-              <input
-                placeholder="Qualification"
-                name="qualification"
-                onChange={handleChange}
-                value={formData.qualification}
-                className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface"
-              />
+             <select
+              required
+              name="qualification"
+              onChange={handleChange}
+              value={formData.qualification}
+              className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface"
+            >
+              <option value="">Select Qualification</option>
+              {qualificationOptions.map((q) => (
+                <option key={q} value={q}>{q}</option>
+              ))}
+            </select>
               <input
                 placeholder="Experience (years)"
                 name="experience"
@@ -607,6 +618,18 @@ const handleSubmit = async (e) => {
                 value={formData.experience}
                 className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface"
               />
+              <select 
+                required 
+                name="preferredCountry" 
+                onChange={handleChange} 
+                value={formData.preferredCountry} 
+                className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface"
+              >
+                <option value="">Select Preferred Country</option>
+                {countryList.map((c) => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </select>
               <select
                 name="fresher"
                 onChange={handleChange}
