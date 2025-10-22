@@ -35,7 +35,7 @@ export default function Mainnavbar() {
           onClick={() => navigate("/")}
         >
           <img
-            src="/logo.jpg"
+            src="/logo2.png"
             alt="Atomica Logo"
             className="h-11 w-11 rounded-full shadow-lg ring-2 ring-light-primary/40 dark:ring-dark-primary/40 group-hover:scale-110 transition-transform duration-300"
           />
