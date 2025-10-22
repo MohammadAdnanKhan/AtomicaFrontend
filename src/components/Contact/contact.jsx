@@ -18,9 +18,9 @@ const contacts = [
     whatsapp: true,
   },
   {
-    label: 'Call Only',
+    label: 'WhatsApp & Call',
     number: '7395918843',
-    whatsapp: false,
+    whatsapp: true,
   },
 ];
 
