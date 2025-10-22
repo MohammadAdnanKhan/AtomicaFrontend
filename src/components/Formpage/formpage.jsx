@@ -361,7 +361,7 @@ const handleSubmit = async (e) => {
   e.preventDefault();
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  const mobileRegex = /^\+?[0-9\s\-()]{7,20}$/; // matches backend
+  const mobileRegex = /^\+?[0-9\s\-()]{7,20}$/; 
   const allowedFileTypes = [
     'application/pdf',
     'application/msword',
@@ -383,10 +383,10 @@ const handleSubmit = async (e) => {
     return alert('Please enter a valid WhatsApp number (or 00 if not available).');
   if (!main_subcategory) return alert('Please select a main subcategory.');
 
-  // Prepare form data for backend
+  //form data for backend
   const data = new FormData();
   data.append('name', name);
-  data.append('age', age || ''); // backend handles null
+  data.append('age', age || ''); 
   data.append('gender', gender);
   data.append('state', state);
   data.append('city', city);
@@ -411,7 +411,6 @@ const handleSubmit = async (e) => {
     });
     alert('Submitted successfully!');
 
-    // Reset form
     setFormData({
       name: '', age: '', gender: '', state: '', city: '', country: '',
       mobile: '', mobile_whatsapp: '', email: '',
@@ -425,13 +424,16 @@ const handleSubmit = async (e) => {
   }
 };
 
-  // Job Handlers
   const handleJobChange = (e) => {
     const { name, value, type, checked } = e.target;
     setJobForm({
       ...jobForm,
       [name]: type === "checkbox" ? checked : value,
     });
+  };
+  const handleExamsChange = (e) => {
+    const selected = Array.from(e.target.selectedOptions, option => option.value);
+    setJobForm(prev => ({ ...prev, exams: selected }));
   };
   // const JOB_URL="http://localhost:5000/api/job";
   const JOB_URL="https://atomicabackend.onrender.com/api/job";
@@ -455,7 +457,7 @@ const handleSubmit = async (e) => {
         food: false,
         accommodation: false,
         processing_time: "",
-        exams: "",
+        exams: [],
         transportation: false,
         service_charge_lakhs: "",
         service_charge_thousands: "",
@@ -793,16 +795,22 @@ const handleSubmit = async (e) => {
                 ))}
               </select>
 
-              <select
-                name="exams"
-                multiple
-                onChange={handleJobChange}
-                className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface"
-              >
-                {examOptions.map((ex) => (
-                  <option key={ex}>{ex}</option>
-                ))}
-              </select>
+<select
+  name="exams"
+  multiple
+  value={jobForm.exams} 
+  onChange={handleExamsChange}
+  className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+>
+  <option value="" disabled>
+    Select exams
+  </option>
+  {examOptions.map((ex) => (
+    <option key={ex} value={ex}>
+      {ex}
+    </option>
+  ))}
+</select>
 
               <input
                 type="number"
@@ -840,6 +848,7 @@ const handleSubmit = async (e) => {
             Upload Poster (Image file only: JPG, PNG)
           </label>
           <input
+            required
             type="file"
             name="poster"
             accept="image/*"
