@@ -213,7 +213,7 @@ export default function Home() {
                 <div className="absolute inset-0 rounded-2xl pointer-events-none -z-10" style={{ boxShadow: "inset 0 1px 0 rgba(255,255,255,0.02)" }} />
 
                 <img
-                  src="/logo2.png"
+                  src="/logo2.jpg"
                   alt="Atomica Logo"
                   className="w-full max-w-xs md:max-w-sm block rounded-xl mx-auto"
                   style={{ transform: "translateZ(24px)" }}
@@ -330,7 +330,7 @@ export default function Home() {
 
       <section className="relative text-center px-6 py-28 md:py-32 bg-gradient-to-tr from-light-gradient to-light-background dark:from-dark-gradient dark:to-dark-background overflow-hidden">
         <div className="max-w-3xl mx-auto space-y-8">
-          <motion.img initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} src="/logo2.png" alt="Career Support" className="w-36 h-36 rounded-2xl mx-auto shadow-xl" />
+          <motion.img initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} src="/logo2.jpg" alt="Career Support" className=" rounded-2xl mx-auto shadow-xl" />
           <motion.h4 initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: 0.08, duration: 0.8 }} className="text-3xl md:text-4xl font-heading font-bold text-light-primary dark:text-dark-primary">Your Global Journey Starts Here</motion.h4>
           <motion.p initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: 0.12, duration: 0.8 }} className="text-lg text-light-secondary dark:text-dark-secondary">Whether you're aiming for a top university or your dream job overseas, Atomica is with you, every step of the way.</motion.p>
 

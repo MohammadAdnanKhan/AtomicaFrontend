@@ -26,7 +26,7 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 font-heading bg-light-surface dark:bg-dark-surface shadow-md text-light-text dark:text-dark-text transition-all">
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <img src="/logo2.png" alt="Logo" title="Online Education and Career Services" className="h-9 w-9 rounded-full shadow-md" />
+          <img src="/logo2.jpg" alt="Logo" title="Online Education and Career Services" className="h-9 rounded-full shadow-md" />
           <Link
             to="/"
             title="Online Education and Career Services"
