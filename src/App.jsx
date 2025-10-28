@@ -13,6 +13,8 @@ import Contact from './components/Contact/contact';
 import Profile from './components/Profile/profile';
 import Loginusers from './components/Loginusers/loginusers';
 import ChangePassword from './components/ChangeAdminPass/ChangeAdminPass';
+import JobsDashboard from './components/Jobsdashboard/jobsdashboard';
+import JobsUsers from './components/Jobsusers/jobsusers';
 
 const isAuthenticated = () => localStorage.getItem('isAuth') === 'true';
 const isUserAuthenticated = () => localStorage.getItem('userAuth') === 'true';
@@ -35,6 +37,7 @@ export default function App() {
           <Route path="about-us" element={<About />} />
           <Route path="contact" element={<Contact />} />
           <Route path="login" element={<Loginusers />} />
+          <Route path="jobs" element={<JobsUsers />} />
           <Route path="profiles" element={<UserPrivateRoute element={<Profile />} />} />
         </Route>
 
@@ -51,6 +54,7 @@ export default function App() {
           />
           <Route path="form" element={<PrivateRoute element={<FormPage />} />} />
           <Route path="dashboard" element={<PrivateRoute element={<Dashboard />} />} />
+          <Route path="jobsdashboard" element={<PrivateRoute element={<JobsDashboard />} />} />
           <Route path="change-password" element={<PrivateRoute element={<ChangePassword />} />} />
         </Route>
 
