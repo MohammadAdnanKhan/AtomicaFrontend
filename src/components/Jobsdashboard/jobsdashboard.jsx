@@ -454,7 +454,7 @@ const handleViewPoster = async (id) => {
 
                 {/* Poster Upload */}
                 <label className="block font-semibold text-black dark:text-gray-200">
-                  Upload Poster(if you want to add a new poster otherwise let it be)
+                  Upload new Poster(if you want to add a new poster otherwise let it be)
                 </label>
                 <input
                   type="file"
