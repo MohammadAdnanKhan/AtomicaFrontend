@@ -3,9 +3,12 @@ import { saveAs } from "file-saver";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import EditCandidateModal from "../Editjob/editjob.jsx";
 
 const BASE = 'https://atomicabackend.onrender.com/api';
 // const BASE = "http://localhost:5000/api";
+// const BASE1 = "http://localhost:5000/api/candidates";
+const BASE1 = 'https://atomicabackend.onrender.com/api/candidates';
 
 const categories = [
   "All",
@@ -399,6 +402,54 @@ const Dashboard = () => {
     categoryToMainSubcategories[selectedCategory]
       ? ["All", ...categoryToMainSubcategories[selectedCategory]]
       : [];
+const [editingCandidateId, setEditingCandidateId] = useState(null);
+const [showEditModal, setShowEditModal] = useState(false);
+
+// fetch candidates function (call on mount and after updates)
+const fetchCandidates = async () => {
+  try {
+    const res = await fetch(`${BASE}/candidates`); // adjust endpoint
+    const data = await res.json();
+    setCandidates(data);
+  } catch (err) {
+    console.error("Error fetching candidates:", err);
+  }
+};
+
+useEffect(() => {
+  fetchCandidates();
+}, []);
+
+// open modal and load candidate
+const handleEdit = (candidate) => {
+  setEditingCandidateId(candidate.id);
+  setShowEditModal(true);
+};
+
+// call this after successful update
+const handleAfterUpdate = () => {
+  fetchCandidates();
+  setShowEditModal(false);
+  setEditingCandidateId(null);
+};
+
+// delete handler
+const handleDelete = async (id) => {
+  if (!window.confirm("Are you sure you want to detete the data of the candidate?")) return;
+  try {
+    const res = await fetch(`${BASE}/candidates/${id}`, { method: "DELETE" });
+    if (!res.ok) throw new Error("Failed");
+    setCandidates((p) => p.filter((x) => x.id !== id));
+  } catch (err) {
+    console.error(err);
+    alert("Delete failed");
+  }
+};
+
+// view resume handler
+const handleViewResume = (id) => {
+  window.open(`${BASE}/resume/${id}`, "_blank");
+};
 
 return (
   <div className="min-h-screen font-body transition-colors duration-500 bg-light-gradient dark:bg-dark-gradient text-light-text dark:text-dark-text">
@@ -629,6 +680,22 @@ return (
                   >
                     Excel
                   </button>
+                   {/* Edit Candidate */}
+<button
+  onClick={() => handleEdit(c)}
+  className="px-3 py-1 bg-yellow-600 text-white rounded-md text-xs hover:bg-yellow-700 transition"
+>
+  Edit
+</button>
+
+
+  {/* Delete Candidate */}
+  <button
+    onClick={() => handleDelete(c.id)}
+    className="px-3 py-1 bg-red-600 text-white rounded-md text-xs hover:bg-red-700 transition"
+  >
+    Delete
+  </button>
                 </td>
               </tr>
             ))}
@@ -647,6 +714,18 @@ return (
           </button>
         </div>
       )}
+
+      {showEditModal && (
+  <EditCandidateModal
+    candidateId={editingCandidateId}
+    onClose={() => {
+      setShowEditModal(false);
+      setEditingCandidateId(null);
+    }}
+    onUpdated={handleAfterUpdate}
+  />
+)}
+
     </div>
   </div>
 );
