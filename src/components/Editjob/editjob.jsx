@@ -306,7 +306,7 @@ const countryList = [
           main_subcategory: data.main_subcategory || "",
           qualification: data.qualification || "",
           experience: data.experience || "",
-          preferredCountry: data.preferredcountry || "",
+          preferredCountry: data.preferredCountry || "",
           fresher: data.fresher ?? false,
           referredby: data.referredby || "",
           enteredby: data.enteredby || "",
@@ -381,7 +381,7 @@ const countryList = [
       fd.append("enteredby", profile.enteredby);
       fd.append("qualification", profile.qualification);
       fd.append("experience", profile.experience);
-      fd.append("preferredcountry", profile.preferredcountry);
+      fd.append("preferredCountry", profile.preferredCountry);
       // fresher expected on backend as boolean or "yes"/"no" — keep boolean
       fd.append("fresher", profile.fresher ? "true" : "false");
       fd.append("referredby", profile.referredby);
