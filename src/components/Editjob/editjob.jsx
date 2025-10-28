@@ -245,7 +245,7 @@ const categoryToMainSubcategories = {
     ]
   };
 const countryList = [
-  "Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda",
+  "No preference","Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda",
   "Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bahrain",
   "Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan",
   "Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria",
@@ -581,6 +581,7 @@ const countryList = [
           />
 
             <select
+            required
             name="preferredCountry"
             value={profile.preferredCountry}
             onChange={handleChange}
