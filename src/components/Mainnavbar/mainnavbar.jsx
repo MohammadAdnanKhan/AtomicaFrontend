@@ -68,6 +68,12 @@ export default function Mainnavbar() {
             Services
           </Link>
           <Link
+            to="/jobs"
+            className="hover:text-light-primary dark:hover:text-dark-primary transition-all"
+          >
+            Careers
+          </Link>
+          <Link
             to="/about-us"
             className="hover:text-light-primary dark:hover:text-dark-primary transition-all"
           >
