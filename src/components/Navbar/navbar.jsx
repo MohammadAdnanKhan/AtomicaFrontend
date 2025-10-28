@@ -47,7 +47,13 @@ export default function Navbar() {
             to="/admin/dashboard"
             className="hover:underline underline-offset-4 hover:text-light-accent dark:hover:text-dark-accent transition"
           >
-            Dashboard
+            Candidate Dashboard
+          </Link>
+          <Link
+            to="/admin/jobsdashboard"
+            className="hover:underline underline-offset-4 hover:text-light-accent dark:hover:text-dark-accent transition"
+          >
+            Jobs Dashboard
           </Link>
           <Link
             to="/admin/form"
