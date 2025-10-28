@@ -812,22 +812,24 @@ const handleSubmit = async (e) => {
   ))}
 </select>
 
-              <input
-                type="number"
-                name="service_charge_lakhs"
-                placeholder="Service Charge (Lakhs)"
-                onChange={handleJobChange}
-                value={jobForm.service_charge_lakhs}
-                className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface"
-              />
-              <input
-                type="number"
-                name="service_charge_thousands"
-                placeholder="Service Charge (Thousands)"
-                onChange={handleJobChange}
-                value={jobForm.service_charge_thousands}
-                className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface"
-              />
+             <div className="flex flex-col sm:flex-row gap-4">
+      <input
+        type="number"
+        name="service_charge_lakhs"
+        placeholder="Service Charge (Lakhs)"
+        onChange={handleJobChange}
+        value={jobForm.service_charge_lakhs}
+        className="flex-1 p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface"
+      />
+      <input
+        type="number"
+        name="service_charge_thousands"
+        placeholder="Service Charge (Thousands)"
+        onChange={handleJobChange}
+        value={jobForm.service_charge_thousands}
+        className="flex-1 p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-surface"
+      />
+    </div>
 
               <textarea
                 name="payment_terms"
@@ -848,7 +850,6 @@ const handleSubmit = async (e) => {
             Upload Poster (Image file only: JPG, PNG)
           </label>
           <input
-            required
             type="file"
             name="poster"
             accept="image/*"
