@@ -22,4 +22,3 @@ export default function WakeBackend() {
 
   return null;
 }
-
