@@ -166,24 +166,27 @@ const handleViewPoster = async (id) => {
   const showMore = () => setVisibleCount((prev) => prev + 20);
 
   return (
-    <div className="min-h-screen font-body transition-colors duration-500 bg-light-gradient dark:bg-dark-gradient text-light-text dark:text-dark-text">
-      <div className="max-w-7xl mx-auto px-6 py-10">
+    <div className="grain relative min-h-screen font-body transition-colors duration-500 text-light-text dark:text-dark-text bg-wash-light dark:bg-wash-dark overflow-hidden">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 py-16">
         {/* Title */}
-        <h2 className="text-4xl font-heading font-bold mb-4 text-light-primary dark:text-dark-primary tracking-tight drop-shadow-sm text-center">
-          Explore Global Job Opportunities
+        <div className="text-center mb-3">
+          <span className="eyebrow justify-center">Global opportunities</span>
+        </div>
+        <h2 className="mt-4 font-heading text-4xl md:text-6xl font-semibold mb-5 tracking-[-0.02em] text-center leading-[1.04]">
+          Explore global <span className="em-serif">careers</span>
         </h2>
 
         {/* Intro paragraph */}
-        <p className="text-lg text-gray-700 dark:text-gray-300 mb-8 leading-relaxed text-center max-w-3xl mx-auto">
+        <p className="text-lg text-light-secondary dark:text-dark-secondary mb-12 leading-relaxed text-center max-w-3xl mx-auto">
           Discover the latest international job openings across multiple industries and destinations.
           Each listing includes key details like salary, benefits, and requirements.
           Use this dashboard to find the perfect opportunity that matches your profile and career goals.
         </p>
 
         {/* Jobs Table */}
-        <div className="overflow-x-auto bg-white/40 dark:bg-dark-surface/40 backdrop-blur-md border border-white/40 dark:border-dark-primary/30 rounded-xl shadow-lg">
+        <div className="overflow-x-auto rounded-[1.4rem] border hairline bg-light-surface dark:bg-dark-surface shadow-card">
           <table className="w-full border-collapse text-sm">
-            <thead className="bg-light-primary/90 dark:bg-dark-primary text-white sticky top-0 shadow-sm">
+            <thead className="bg-light-primary dark:bg-pine-800 text-light-surface dark:text-dark-text sticky top-0">
               <tr>
                 {[
                   "Country",
@@ -211,11 +214,11 @@ const handleViewPoster = async (id) => {
               {jobs.slice(0, visibleCount).map((job, idx) => (
                 <tr
                   key={job.id}
-                  className={`border-b border-gray-200/40 dark:border-gray-700/40 transition ${
+                  className={`border-b border-light-secondary/15 dark:border-white/10 transition ${
                     idx % 2 === 0
-                      ? "bg-white/40 dark:bg-dark-surface/30"
+                      ? "bg-white/50 dark:bg-white/[0.03]"
                       : "bg-transparent"
-                  } hover:bg-light-primary/10 dark:hover:bg-dark-primary/20`}
+                  } hover:bg-light-primary/10 dark:hover:bg-dark-primary/15`}
                 >
                   <td className="px-4 py-3 font-semibold">{job.country_name}</td>
                   <td className="px-4 py-3">{job.job_name}</td>
@@ -256,7 +259,7 @@ const handleViewPoster = async (id) => {
                   <td className="px-4 py-3 text-center">
                     <button
                       onClick={() => handleViewPoster(job.id)}
-                      className="px-3 py-1 bg-blue-600 text-white rounded-md text-xs hover:bg-blue-700 transition"
+                      className="px-4 py-1.5 bg-light-primary dark:bg-dark-primary text-light-surface dark:text-dark-background rounded-full text-xs font-semibold shadow-soft hover:-translate-y-0.5 transition"
                     >
                       View Poster
                     </button>
@@ -272,7 +275,7 @@ const handleViewPoster = async (id) => {
           <div className="text-center mt-8">
             <button
               onClick={showMore}
-              className="px-8 py-2 rounded-lg bg-light-primary dark:bg-dark-primary text-white font-semibold shadow-md hover:scale-105 transition transform"
+              className="px-10 py-3 rounded-full bg-light-primary dark:bg-dark-primary text-light-surface dark:text-dark-background font-semibold shadow-soft hover:shadow-lift hover:-translate-y-1 transition-all duration-300"
             >
               Show More Jobs
             </button>

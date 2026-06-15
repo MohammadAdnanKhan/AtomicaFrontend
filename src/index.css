@@ -1,3 +1,118 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-light-background text-light-text dark:bg-dark-background dark:text-dark-text font-body;
+  }
+
+  /* Headlines use Fraunces with optical sizing for a warm, editorial feel */
+  h1, h2, h3, h4 {
+    font-optical-sizing: auto;
+  }
+
+  ::selection {
+    background-color: rgba(31, 111, 92, 0.18);
+    color: inherit;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(31, 111, 92, 0.4) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: rgba(31, 111, 92, 0.45);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  .dark *::-webkit-scrollbar-thumb {
+    background: rgba(111, 195, 172, 0.4);
+    background-clip: padding-box;
+  }
+}
+
+@layer components {
+  /* Eyebrow / small-caps label */
+  .eyebrow {
+    @apply inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-eyebrow text-light-primary dark:text-dark-primary;
+  }
+  .eyebrow::before {
+    content: '';
+    @apply inline-block h-px w-8 bg-light-primary/50 dark:bg-dark-primary/50;
+  }
+
+  /* Italic serif emphasis inside a headline */
+  .em-serif {
+    font-style: italic;
+    @apply text-light-primary dark:text-dark-primary;
+  }
+
+  /* Hand-drawn-ish underline accent */
+  .underline-accent {
+    background-image: linear-gradient(transparent 62%, rgba(194, 114, 78, 0.35) 62%);
+    background-repeat: no-repeat;
+  }
+  .dark .underline-accent {
+    background-image: linear-gradient(transparent 62%, rgba(224, 160, 111, 0.3) 62%);
+  }
+
+  /* Paper grain — subtle tactile texture instead of flat fills */
+  .grain {
+    position: relative;
+  }
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+  }
+  .dark .grain::after {
+    mix-blend-mode: screen;
+    opacity: 0.6;
+  }
+
+  /* Soft frosted panel (used sparingly, warm-toned) */
+  .glass {
+    @apply bg-light-surface/80 dark:bg-dark-surface/70 backdrop-blur-md border border-light-secondary/15 dark:border-white/10;
+  }
+
+  /* Fallbacks so any legacy utility still reads as intentional */
+  .text-gradient {
+    @apply text-light-primary dark:text-dark-primary;
+  }
+
+  /* Hairline divider with a warm tone */
+  .hairline {
+    @apply border-light-secondary/20 dark:border-white/10;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

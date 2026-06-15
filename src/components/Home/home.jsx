@@ -1,5 +1,48 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import {
+  BookOpen,
+  Code2,
+  GraduationCap,
+  Plane,
+  HeartPulse,
+  Globe2,
+  ArrowUpRight,
+  ArrowRight,
+} from "lucide-react";
+
+const whatWeDo = [
+  { title: "Online Tutoring", icon: BookOpen, desc: "Personalised academic coaching across subjects for school and college students." },
+  { title: "IT & Project Training", icon: Code2, desc: "Industry-aligned, project-driven programs taught by working professionals." },
+  { title: "Study Abroad — MBBS & Management", icon: GraduationCap, desc: "End-to-end guidance for top universities and specialised global courses." },
+  { title: "Postgraduate Admissions, Germany", icon: Plane, desc: "Admissions consulting for public and private universities in Germany." },
+  { title: "Healthcare Job Placement", icon: HeartPulse, desc: "Placement support for healthcare professionals targeting global roles." },
+  { title: "International Career Consulting", icon: Globe2, desc: "Career strategy across IT, healthcare and beyond, in multiple countries." },
+];
+
+const stats = [
+  { value: "10+", label: "Countries" },
+  { value: "500+", label: "Careers launched" },
+  { value: "15+", label: "Expert mentors" },
+  { value: "100%", label: "Personalised" },
+];
+
+function OrbitRings({ className = "" }) {
+  return (
+    <svg viewBox="0 0 400 400" className={className} fill="none" aria-hidden>
+      <g stroke="currentColor" strokeWidth="1">
+        <ellipse cx="200" cy="200" rx="180" ry="70" opacity="0.5" />
+        <ellipse cx="200" cy="200" rx="180" ry="70" opacity="0.5" transform="rotate(60 200 200)" />
+        <ellipse cx="200" cy="200" rx="180" ry="70" opacity="0.5" transform="rotate(120 200 200)" />
+        <circle cx="200" cy="200" rx="120" r="120" opacity="0.3" />
+      </g>
+      <circle cx="380" cy="200" r="4" fill="currentColor" />
+      <circle cx="110" cy="92" r="3.5" fill="currentColor" opacity="0.7" />
+      <circle cx="150" cy="320" r="3" fill="currentColor" opacity="0.6" />
+    </svg>
+  );
+}
 
 export default function Home() {
   const heroRef = useRef(null);
@@ -17,9 +60,6 @@ export default function Home() {
 
   useEffect(() => {
     const imgWrap = imgWrapRef.current;
-    const orbA = orbARef.current;
-    const orbB = orbBRef.current;
-    const pattern = patternRef.current;
     let raf = null;
 
     function handleMove(e) {
@@ -33,15 +73,14 @@ export default function Home() {
       const nx = dx / rect.width;
       const ny = dy / rect.height;
 
-      const rotY = nx * -6; // degrees
-      const rotX = ny * 6; // degrees
+      const rotY = nx * -6;
+      const rotX = ny * 6;
       const translateZ = Math.max(0, 8 - Math.abs(nx) * 6);
 
-      const orbAX = nx * -14;
-      const orbAY = ny * -10;
-      const orbBX = nx * 10;
-      const orbBY = ny * 8;
-
+      const orbAX = nx * -16;
+      const orbAY = ny * -12;
+      const orbBX = nx * 12;
+      const orbBY = ny * 9;
       const patX = nx * -6;
       const patY = ny * -6;
 
@@ -88,9 +127,7 @@ export default function Home() {
     }
 
     function extractPx(translateStr = "", fallback = 0) {
-      const match = /translate3d\((-?[\d.]+)px,\s*(-?[\d.]+)px,\s*(-?[\d.]+)px\)/.exec(
-        translateStr
-      );
+      const match = /translate3d\((-?[\d.]+)px,\s*(-?[\d.]+)px,\s*(-?[\d.]+)px\)/.exec(translateStr);
       if (!match) return fallback;
       return parseFloat(match[1]);
     }
@@ -109,238 +146,315 @@ export default function Home() {
     };
   }, []);
 
-  const fadeUp = { hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } };
+  const fadeUp = { hidden: { opacity: 0, y: 18 }, show: { opacity: 1, y: 0 } };
 
   return (
-    <div className="bg-light-background dark:bg-dark-background text-light-text dark:text-dark-text transition-colors duration-500 font-body">
+    <div className="bg-light-background dark:bg-dark-background text-light-text dark:text-dark-text transition-colors duration-500 overflow-hidden">
+      {/* ===================== HERO ===================== */}
       <section
         ref={heroRef}
-        className="relative min-h-screen flex items-center overflow-hidden"
+        className="grain relative min-h-[92vh] flex items-center bg-wash-light dark:bg-wash-dark"
         aria-labelledby="hero-title"
       >
+        {/* faint parallax rule pattern */}
         <div
           ref={patternRef}
-          className="absolute inset-0 pointer-events-none opacity-30"
+          className="absolute inset-0 pointer-events-none opacity-[0.5]"
           style={{ transform: transforms.patternTrans }}
         >
-          <svg
-            className="w-full h-full"
-            preserveAspectRatio="none"
-            viewBox="0 0 800 600"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <defs>
-              <pattern id="dotPattern" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
-                <circle cx="1.2" cy="1.2" r="1.2" fill="currentColor" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#dotPattern)" className="text-light-primary dark:text-dark-primary/30" />
-          </svg>
+          <div className="absolute inset-y-0 left-[8%] w-px bg-light-secondary/10 dark:bg-white/5" />
+          <div className="absolute inset-y-0 right-[8%] w-px bg-light-secondary/10 dark:bg-white/5" />
         </div>
 
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-light-gradient to-light-background dark:from-dark-gradient dark:to-dark-background animate-gradientShift" />
+        <div className="relative z-10 container max-w-7xl mx-auto px-6 md:px-10 py-24 grid md:grid-cols-[1.05fr_0.95fr] gap-14 items-center">
+          {/* Copy */}
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={{ show: { transition: { staggerChildren: 0.12 } } }}
+            className="space-y-7"
+          >
+            <motion.span variants={fadeUp} className="eyebrow">
+              Atomica Career Academy
+            </motion.span>
 
-        <div
-          ref={orbARef}
-          aria-hidden
-          className="absolute -left-28 -top-20 w-72 h-72 rounded-full blur-3xl opacity-30 pointer-events-none"
-          style={{
-            background: "radial-gradient(circle at 30% 30%, rgba(255,200,120,0.24), rgba(255,120,60,0.06))",
-            transform: transforms.orbATrans,
-          }}
-        />
-        <div
-          ref={orbBRef}
-          aria-hidden
-          className="absolute right-6 bottom-6 w-96 h-96 rounded-full blur-3xl opacity-20 pointer-events-none"
-          style={{
-            background: "radial-gradient(circle at 70% 40%, rgba(80,150,255,0.18), rgba(20,60,120,0.04))",
-            transform: transforms.orbBTrans,
-          }}
-        />
+            <motion.h1
+              id="hero-title"
+              variants={fadeUp}
+              transition={{ duration: 0.6 }}
+              className="font-heading font-semibold text-[2.7rem] sm:text-6xl xl:text-[4.6rem] leading-[1.02] tracking-[-0.02em]"
+            >
+              Shaping ambitions,
+              <br />
+              launching{" "}
+              <span className="em-serif">global</span> careers.
+            </motion.h1>
 
-        <div className="container max-w-7xl mx-auto px-6 md:px-16 relative z-10">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <motion.div
-              className="space-y-6"
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, amount: 0.2 }}
-              variants={{
-                show: { transition: { staggerChildren: 0.12 } },
+            <motion.p
+              variants={fadeUp}
+              className="text-lg text-light-secondary dark:text-dark-secondary max-w-md leading-relaxed"
+            >
+              We guide students and professionals toward opportunities worldwide —
+              through mentoring, skill-building, and study-abroad and placement
+              pathways built around <span className="underline-accent">you</span>.
+            </motion.p>
+
+            <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-4 pt-1">
+              <Link
+                to="/services"
+                className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-light-surface dark:text-dark-background bg-light-primary dark:bg-dark-primary hover:shadow-lift hover:-translate-y-0.5 transition-all duration-300"
+              >
+                Explore services
+                <ArrowRight size={17} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link
+                to="/jobs"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold border border-light-secondary/30 dark:border-white/15 hover:border-light-primary dark:hover:border-dark-primary hover:text-light-primary dark:hover:text-dark-primary transition-all duration-300"
+              >
+                Browse careers
+              </Link>
+            </motion.div>
+          </motion.div>
+
+          {/* Visual */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.9 }}
+            className="relative flex items-center justify-center"
+          >
+            {/* orbit motif (parallax + slow spin) */}
+            <div
+              ref={orbARef}
+              className="absolute inset-0 flex items-center justify-center pointer-events-none text-light-primary/40 dark:text-dark-primary/40"
+              style={{ transform: transforms.orbATrans }}
+            >
+              <OrbitRings className="w-[125%] h-[125%] animate-spinSlow" />
+            </div>
+            {/* soft ambient glow (parallax) */}
+            <div
+              ref={orbBRef}
+              className="absolute w-72 h-72 rounded-full blur-3xl bg-light-accent/15 dark:bg-dark-accent/15 pointer-events-none"
+              style={{ transform: transforms.orbBTrans }}
+            />
+
+            <div
+              ref={imgWrapRef}
+              className="relative"
+              style={{
+                transformStyle: "preserve-3d",
+                transform: transforms.imgTilt,
+                transition: "transform 240ms cubic-bezier(.2,.9,.2,1)",
               }}
             >
-              <motion.h1
-                id="hero-title"
-                className="text-5xl md:text-6xl font-heading font-bold text-light-primary dark:text-dark-primary leading-tight"
-                variants={fadeUp}
-                transition={{ duration: 0.6 }}
-              >
-                Shaping Ambitions.
-                <br />
-                Launching Global Careers.
-              </motion.h1>
-
-              <motion.p className="text-lg md:text-xl text-light-secondary dark:text-dark-secondary max-w-xl" variants={fadeUp}>
-                At Atomica Career Academy, we empower students and professionals to unlock global opportunities through guidance, skill-building, and expert mentoring.
-              </motion.p>
-
-              <motion.div variants={fadeUp}>
-                <a
-                  href="services"
-                  className="inline-block mt-4 px-10 py-4 rounded-full font-semibold bg-gradient-to-r from-light-primary to-light-secondary dark:from-dark-primary dark:to-dark-secondary text-light-background dark:text-dark-background shadow-xl transform transition-all hover:-translate-y-1 hover:shadow-2xl"
-                >
-                  Get Started
-                </a>
-              </motion.div>
-            </motion.div>
-
-            <motion.div
-              ref={imgWrapRef}
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.9 }}
-              className="flex items-center justify-center"
-            >
+              {/* offset accent block behind */}
+              <span
+                className="absolute -bottom-4 -right-4 w-full h-full rounded-[1.6rem] border border-light-primary/40 dark:border-dark-primary/40"
+                style={{ transform: "translateZ(-20px)" }}
+              />
+              <img
+                src="/logo2.jpg"
+                alt="Atomica"
+                className="relative block w-[18rem] sm:w-[22rem] h-auto rounded-[1.6rem] bg-light-surface dark:bg-dark-surface p-3 shadow-card"
+                style={{ transform: "translateZ(28px)" }}
+              />
               <div
-                className="relative rounded-3xl p-6 bg-white/30 dark:bg-gray-900/30 backdrop-blur-md border border-white/8 dark:border-black/20 shadow-[0_20px_60px_-20px_rgba(2,6,23,0.6)]"
-                style={{
-                  transformStyle: "preserve-3d",
-                  transform: transforms.imgTilt,
-                  transition: "transform 220ms cubic-bezier(.2,.9,.2,1)",
-                }}
+                className="absolute -top-4 left-5 px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-eyebrow bg-light-primary dark:bg-dark-primary text-light-surface dark:text-dark-background shadow-soft"
+                style={{ transform: "translateZ(46px)" }}
               >
-                <div className="absolute inset-0 rounded-2xl pointer-events-none -z-10" style={{ boxShadow: "inset 0 1px 0 rgba(255,255,255,0.02)" }} />
+                Global Reach
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
 
-                <img
-                  src="/logo2.jpg"
-                  alt="Atomica Logo"
-                  className="w-full max-w-xs md:max-w-sm block rounded-xl mx-auto"
-                  style={{ transform: "translateZ(24px)" }}
-                />
-
-                <div
-                  className="absolute -top-6 right-6 px-3 py-2 rounded-lg text-sm font-medium shadow-md"
-                  style={{
-                    background: "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))",
-                    border: "1px solid rgba(255,255,255,0.04)",
-                    transform: "translateZ(28px)",
-                  }}
-                >
-                  Career Support
-                </div>
+      {/* ===================== STATS BAND ===================== */}
+      <section className="border-y hairline">
+        <div className="max-w-7xl mx-auto px-6 md:px-10 grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 hairline">
+          {stats.map((s, i) => (
+            <motion.div
+              key={s.label}
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08, duration: 0.5 }}
+              className="px-6 py-9 text-center md:text-left"
+            >
+              <div className="font-heading text-4xl md:text-5xl font-semibold text-light-primary dark:text-dark-primary">
+                {s.value}
+              </div>
+              <div className="mt-1 text-sm text-light-secondary dark:text-dark-secondary">
+                {s.label}
               </div>
             </motion.div>
-          </div>
+          ))}
         </div>
       </section>
 
-      <div className="w-full h-12 -mt-6 md:-mt-12 transform rotate-[178deg] origin-top-left">
-        <svg viewBox="0 0 1200 28" preserveAspectRatio="none" className="w-full h-full">
-          <path d="M0 0 L1200 0 L1200 28 L0 0 Z" fill="currentColor" className="text-light-surface dark:text-dark-surface" />
-        </svg>
-      </div>
-
-      <section id="services" className="py-20 md:py-28 px-6 md:px-16 max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-        <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="space-y-6">
-          <h2 className="text-4xl font-heading font-bold text-light-primary dark:text-dark-primary">Our Mission</h2>
-          <p className="text-lg text-light-secondary dark:text-dark-secondary leading-relaxed">
-            We guide young minds toward academic excellence, career growth, and global exposure. From tutoring to international job placements, we are committed to personalized and future-ready solutions.
-          </p>
-        </motion.div>
-
-        <motion.div initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="relative">
-          <div className="rounded-3xl overflow-hidden shadow-2xl transform transition-transform duration-700 hover:scale-[1.01]">
-            <img src="/img1.jpg" alt="Mission" className="w-full h-full object-cover" />
-          </div>
-          <div className="absolute -left-16 -top-10 w-56 h-56 rounded-full blur-3xl opacity-30" style={{ background: "radial-gradient(circle, rgba(250,200,160,0.18), rgba(250,120,50,0.02))", zIndex: -1 }} />
-        </motion.div>
-      </section>
-
-<section className="bg-light-surface dark:bg-dark-surface py-24 px-6 md:px-16">
-  <div className="max-w-7xl mx-auto">
-    <motion.h3
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7 }}
-      className="text-4xl font-heading font-bold mb-10 text-center text-light-primary dark:text-dark-primary"
-    >
-      What We Do
-    </motion.h3>
-
-    <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
-      {[
-        "Online Tutoring",
-        "IT & Project Training",
-        "Study Abroad (MBBS, Management)",
-        "Postgraduate Admissions (Germany)",
-        "Healthcare Job Placement",
-        "International Career Consulting",
-      ].map((service, idx) => (
-        <motion.article
-          key={service}
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: idx * 0.08, duration: 0.6 }}
-          className="relative rounded-2xl p-6 backdrop-blur-md bg-white/40 dark:bg-gray-900/40 border border-white/10 dark:border-black/20 hover:shadow-2xl transform transition-all duration-500"
-          whileHover={{ scale: 1.02 }}
+      {/* ===================== MISSION ===================== */}
+      <section className="max-w-7xl mx-auto px-6 md:px-10 py-24 grid md:grid-cols-2 gap-14 items-center">
+        <motion.div
+          initial={{ opacity: 0, x: 24 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="relative order-2 md:order-1"
         >
-          <div className="flex items-center gap-4">
-            <div
-              className="w-12 h-12 rounded-full flex items-center justify-center shadow-md"
-              style={{
-                background:
-                  "linear-gradient(135deg, #1A73E8 0%, #38BDF8 100%)",
-                boxShadow: "0 6px 18px rgba(26,115,232,0.25)",
-              }}
-            />
-            <h4 className="text-xl font-semibold text-light-primary dark:text-dark-primary">
-              {service}
-            </h4>
+          <span className="absolute -top-4 -left-4 w-28 h-28 border-t border-l border-light-accent/60 dark:border-dark-accent/60 rounded-tl-3xl" />
+          <div className="overflow-hidden rounded-[1.4rem] shadow-card">
+            <img src="/img1.jpg" alt="Mentoring" className="w-full h-full object-cover" />
           </div>
-
-          <p className="mt-4 text-light-secondary dark:text-dark-secondary">
-            Comprehensive support to help you reach global education and employment goals.
-          </p>
-
-          <div
-            className="absolute -inset-px rounded-2xl pointer-events-none"
-            style={{
-              background:
-                "linear-gradient(90deg, rgba(26,115,232,0.08), rgba(56,189,248,0.08))",
-              zIndex: -1,
-            }}
-          />
-        </motion.article>
-      ))}
-    </div>
-  </div>
-</section>
-
-      <section className="py-20 md:py-28 px-6 md:px-16 max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-        <motion.div initial={{ opacity: 0, x: -26 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="rounded-3xl overflow-hidden shadow-2xl">
-          <img src="/img2.jpg" alt="Global Careers" className="w-full h-full object-cover" />
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, x: 26 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="space-y-6">
-          <h3 className="text-4xl font-heading font-bold text-light-primary dark:text-dark-primary">Future-Ready. Globally Connected.</h3>
-          <p className="text-lg text-light-secondary dark:text-dark-secondary">Our global approach ensures you're not just prepared for today, but for tomorrow's opportunities, anywhere in the world.</p>
+        <motion.div
+          initial={{ opacity: 0, x: -24 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="space-y-6 order-1 md:order-2"
+        >
+          <span className="eyebrow">Our mission</span>
+          <h2 className="font-heading text-4xl md:text-5xl font-semibold leading-[1.08] tracking-[-0.01em]">
+            Guiding young minds toward a <span className="em-serif">global</span> future.
+          </h2>
+          <p className="text-lg text-light-secondary dark:text-dark-secondary leading-relaxed">
+            From tutoring to international job placements, we are committed to
+            personalised, future-ready solutions that drive academic excellence,
+            career growth, and global exposure.
+          </p>
+          <Link
+            to="/about-us"
+            className="inline-flex items-center gap-2 font-semibold text-light-primary dark:text-dark-primary group"
+          >
+            More about us
+            <ArrowUpRight size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </Link>
         </motion.div>
       </section>
 
-      <section className="relative text-center px-6 py-28 md:py-32 bg-gradient-to-tr from-light-gradient to-light-background dark:from-dark-gradient dark:to-dark-background overflow-hidden">
-        <div className="max-w-3xl mx-auto space-y-8">
-          <motion.img initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} src="/logo2.jpg" alt="Career Support" className=" rounded-2xl mx-auto shadow-xl" />
-          <motion.h4 initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: 0.08, duration: 0.8 }} className="text-3xl md:text-4xl font-heading font-bold text-light-primary dark:text-dark-primary">Your Global Journey Starts Here</motion.h4>
-          <motion.p initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: 0.12, duration: 0.8 }} className="text-lg text-light-secondary dark:text-dark-secondary">Whether you're aiming for a top university or your dream job overseas, Atomica is with you, every step of the way.</motion.p>
+      {/* ===================== WHAT WE DO (indexed list) ===================== */}
+      <section className="grain relative bg-light-surface dark:bg-dark-surface border-y hairline">
+        <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-10 py-24">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+            <div className="space-y-4">
+              <span className="eyebrow">What we do</span>
+              <h2 className="font-heading text-4xl md:text-5xl font-semibold leading-[1.05] tracking-[-0.01em]">
+                Everything for your journey
+              </h2>
+            </div>
+            <p className="text-light-secondary dark:text-dark-secondary max-w-xs md:text-right">
+              Six focused practices, one personalised path abroad.
+            </p>
+          </div>
 
-          <motion.a
-            href="services"
-            whileHover={{ translateY: -4, boxShadow: "0 20px 40px rgba(0,0,0,0.18)" }}
-            className="inline-block mt-4 px-12 py-4 rounded-full font-semibold bg-gradient-to-r from-light-primary to-light-secondary dark:from-dark-primary dark:to-dark-secondary text-light-background dark:text-dark-background shadow-lg transition-all"
-          >
-            Start Now
-          </motion.a>
+          <ul className="border-t hairline">
+            {whatWeDo.map((item, idx) => {
+              const Icon = item.icon;
+              return (
+                <motion.li
+                  key={item.title}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.05, duration: 0.5 }}
+                  className="group border-b hairline"
+                >
+                  <Link
+                    to="/services"
+                    className="flex items-center gap-5 md:gap-8 py-7 transition-colors duration-300 hover:bg-light-primary/[0.04] dark:hover:bg-dark-primary/[0.06] -mx-4 px-4 rounded-xl"
+                  >
+                    <span className="font-heading text-2xl md:text-3xl font-semibold text-light-secondary/50 dark:text-dark-secondary/50 group-hover:text-light-accent dark:group-hover:text-dark-accent transition-colors w-12 shrink-0">
+                      {String(idx + 1).padStart(2, "0")}
+                    </span>
+                    <span className="shrink-0 grid place-items-center w-12 h-12 rounded-full border border-light-secondary/20 dark:border-white/10 text-light-primary dark:text-dark-primary group-hover:border-light-primary dark:group-hover:border-dark-primary transition-colors">
+                      <Icon size={22} />
+                    </span>
+                    <span className="flex-1 min-w-0">
+                      <span className="block font-heading text-xl md:text-2xl font-medium leading-snug">
+                        {item.title}
+                      </span>
+                      <span className="block text-sm md:text-base text-light-secondary dark:text-dark-secondary mt-1 leading-relaxed">
+                        {item.desc}
+                      </span>
+                    </span>
+                    <ArrowUpRight
+                      size={22}
+                      className="shrink-0 text-light-secondary/50 dark:text-dark-secondary/50 group-hover:text-light-primary dark:group-hover:text-dark-primary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all"
+                    />
+                  </Link>
+                </motion.li>
+              );
+            })}
+          </ul>
+        </div>
+      </section>
+
+      {/* ===================== WHY ATOMICA ===================== */}
+      <section className="max-w-7xl mx-auto px-6 md:px-10 py-24 grid md:grid-cols-2 gap-14 items-center">
+        <motion.div
+          initial={{ opacity: 0, x: -24 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="space-y-6"
+        >
+          <span className="eyebrow">Why Atomica</span>
+          <h2 className="font-heading text-4xl md:text-5xl font-semibold leading-[1.08] tracking-[-0.01em]">
+            Future-ready. <br />
+            <span className="em-serif">Globally</span> connected.
+          </h2>
+          <p className="text-lg text-light-secondary dark:text-dark-secondary leading-relaxed">
+            Our global approach ensures you're not just prepared for today, but for
+            tomorrow's opportunities — anywhere in the world.
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, x: 24 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="relative"
+        >
+          <span className="absolute -bottom-4 -right-4 w-28 h-28 border-b border-r border-light-accent/60 dark:border-dark-accent/60 rounded-br-3xl" />
+          <div className="overflow-hidden rounded-[1.4rem] shadow-card">
+            <img src="/img2.jpg" alt="Global careers" className="w-full h-full object-cover" />
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ===================== CTA ===================== */}
+      <section className="px-6 md:px-10 pb-24">
+        <div className="grain relative max-w-7xl mx-auto rounded-[2rem] overflow-hidden bg-light-primary dark:bg-pine-800 text-light-surface dark:text-dark-text px-6 md:px-16 py-20 text-center">
+          {/* orbit motif */}
+          <div className="absolute -right-24 -top-24 text-white/10 dark:text-white/[0.06]">
+            <OrbitRings className="w-[28rem] h-[28rem] animate-spinSlowRev" />
+          </div>
+
+          <div className="relative z-10 max-w-2xl mx-auto space-y-7">
+            <span className="text-xs font-semibold uppercase tracking-eyebrow text-light-surface/70 dark:text-dark-text/70">
+              Start your journey
+            </span>
+            <h2 className="font-heading text-3xl md:text-5xl font-semibold leading-[1.08]">
+              Your global journey starts here
+            </h2>
+            <p className="text-lg text-light-surface/85 dark:text-dark-text/80">
+              Whether you're aiming for a top university or your dream job overseas,
+              Atomica is with you, every step of the way.
+            </p>
+            <div className="pt-2">
+              <Link
+                to="/contact"
+                className="group inline-flex items-center gap-2 px-9 py-4 rounded-full font-semibold bg-light-surface text-light-primary dark:bg-dark-text dark:text-dark-background hover:-translate-y-0.5 transition-all duration-300 shadow-card"
+              >
+                Get in touch
+                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
     </div>

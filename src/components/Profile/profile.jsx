@@ -390,14 +390,19 @@ const handleLogout = () => {
 
   return (
     <>
-      <div className="min-h-screen font-body bg-light-gradient dark:bg-dark-gradient transition-colors duration-500 text-light-text dark:text-dark-text flex items-center justify-center px-4 py-10">
-        <div className="w-full max-w-2xl bg-white/60 dark:bg-dark-surface/60 backdrop-blur-md shadow-xl rounded-2xl p-8 space-y-8 border border-gray-200 dark:border-gray-700 transition-all">
-          <h1 className="text-3xl font-heading font-bold text-center text-light-primary dark:text-dark-primary">
-            Welcome, {userName}
-          </h1>
+      <div className="grain relative min-h-screen font-body transition-colors duration-500 text-light-text dark:text-dark-text flex items-center justify-center px-4 py-12 bg-wash-light dark:bg-wash-dark overflow-hidden">
+        <div className="relative z-10 w-full max-w-2xl rounded-[1.6rem] border hairline bg-light-surface dark:bg-dark-surface shadow-card p-8 space-y-8 transition-all">
+          <div className="text-center space-y-3">
+            <div className="mx-auto w-16 h-16 rounded-2xl bg-light-primary dark:bg-dark-primary shadow-soft flex items-center justify-center text-light-surface dark:text-dark-background text-2xl font-heading font-semibold">
+              {(userName || "?").charAt(0).toUpperCase()}
+            </div>
+            <h1 className="font-heading text-3xl font-semibold">
+              Welcome, <span className="em-serif">{userName}</span>
+            </h1>
+          </div>
 
           {/* Profile Section */}
-          <div className="text-black">
+          <div>
             <h2 className="text-2xl font-heading font-semibold text-light-primary dark:text-dark-primary mb-4">
               Update Profile
             </h2>
@@ -413,7 +418,7 @@ const handleLogout = () => {
                 onChange={handleChange}
                 required
                 placeholder="Name"
-                className="w-full p-3 rounded-lg border"
+                className="w-full p-3 rounded-xl border border-gray-300/70 dark:border-white/10 bg-white/80 dark:bg-white/5 text-light-text dark:text-dark-text placeholder:text-light-secondary/70 focus:outline-none focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent transition"
               />
 
               <input
@@ -422,14 +427,14 @@ const handleLogout = () => {
                 value={profile.age}
                 onChange={handleChange}
                 placeholder="Age"
-                className="w-full p-3 rounded-lg border"
+                className="w-full p-3 rounded-xl border border-gray-300/70 dark:border-white/10 bg-white/80 dark:bg-white/5 text-light-text dark:text-dark-text placeholder:text-light-secondary/70 focus:outline-none focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent transition"
               />
 
               <select
                 name="gender"
                 value={profile.gender}
                 onChange={handleChange}
-                className="w-full p-3 rounded-lg border"
+                className="w-full p-3 rounded-xl border border-gray-300/70 dark:border-white/10 bg-white/80 dark:bg-white/5 text-light-text dark:text-dark-text placeholder:text-light-secondary/70 focus:outline-none focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent transition"
               >
                 <option value="">Select Gender</option>
                 <option value="Male">Male</option>
@@ -443,7 +448,7 @@ const handleLogout = () => {
                 value={profile.state}
                 onChange={handleChange}
                 placeholder="State"
-                className="w-full p-3 rounded-lg border"
+                className="w-full p-3 rounded-xl border border-gray-300/70 dark:border-white/10 bg-white/80 dark:bg-white/5 text-light-text dark:text-dark-text placeholder:text-light-secondary/70 focus:outline-none focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent transition"
               />
 
               <input
@@ -452,7 +457,7 @@ const handleLogout = () => {
                 value={profile.city}
                 onChange={handleChange}
                 placeholder="City"
-                className="w-full p-3 rounded-lg border"
+                className="w-full p-3 rounded-xl border border-gray-300/70 dark:border-white/10 bg-white/80 dark:bg-white/5 text-light-text dark:text-dark-text placeholder:text-light-secondary/70 focus:outline-none focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent transition"
               />
 
               <input
@@ -461,7 +466,7 @@ const handleLogout = () => {
                 value={profile.country}
                 onChange={handleChange}
                 placeholder="Country"
-                className="w-full p-3 rounded-lg border"
+                className="w-full p-3 rounded-xl border border-gray-300/70 dark:border-white/10 bg-white/80 dark:bg-white/5 text-light-text dark:text-dark-text placeholder:text-light-secondary/70 focus:outline-none focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent transition"
               />
 
               <input
@@ -470,7 +475,7 @@ const handleLogout = () => {
                 value={profile.mobile}
                 onChange={handleChange}
                 placeholder="Mobile"
-                className="w-full p-3 rounded-lg border"
+                className="w-full p-3 rounded-xl border border-gray-300/70 dark:border-white/10 bg-white/80 dark:bg-white/5 text-light-text dark:text-dark-text placeholder:text-light-secondary/70 focus:outline-none focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent transition"
               />
 
               <input
@@ -479,7 +484,7 @@ const handleLogout = () => {
                 value={profile.mobile_whatsapp}
                 onChange={handleChange}
                 placeholder="WhatsApp Mobile"
-                className="w-full p-3 rounded-lg border"
+                className="w-full p-3 rounded-xl border border-gray-300/70 dark:border-white/10 bg-white/80 dark:bg-white/5 text-light-text dark:text-dark-text placeholder:text-light-secondary/70 focus:outline-none focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent transition"
               />
 
               <input
@@ -489,7 +494,7 @@ const handleLogout = () => {
                 onChange={handleChange}
                 required
                 placeholder="Email"
-                className="w-full p-3 rounded-lg border"
+                className="w-full p-3 rounded-xl border border-gray-300/70 dark:border-white/10 bg-white/80 dark:bg-white/5 text-light-text dark:text-dark-text placeholder:text-light-secondary/70 focus:outline-none focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent transition"
               />
 
               <select
@@ -497,7 +502,7 @@ const handleLogout = () => {
                 value={profile.category}
                 onChange={handleChange}
                 required
-                className="w-full p-3 rounded-lg border"
+                className="w-full p-3 rounded-xl border border-gray-300/70 dark:border-white/10 bg-white/80 dark:bg-white/5 text-light-text dark:text-dark-text placeholder:text-light-secondary/70 focus:outline-none focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent transition"
               >
                 <option value="">Select Category</option>
                 {Object.keys(categoryToMainSubcategories).map((cat) => (
@@ -532,7 +537,7 @@ const handleLogout = () => {
                 value={profile.subcategory}
                 onChange={handleChange}
                 placeholder="Enter your skills"
-                className="w-full p-3 rounded-lg border"
+                className="w-full p-3 rounded-xl border border-gray-300/70 dark:border-white/10 bg-white/80 dark:bg-white/5 text-light-text dark:text-dark-text placeholder:text-light-secondary/70 focus:outline-none focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent transition"
               />
 
               <input
@@ -541,7 +546,7 @@ const handleLogout = () => {
                 value={profile.qualification}
                 onChange={handleChange}
                 placeholder="Qualification"
-                className="w-full p-3 rounded-lg border"
+                className="w-full p-3 rounded-xl border border-gray-300/70 dark:border-white/10 bg-white/80 dark:bg-white/5 text-light-text dark:text-dark-text placeholder:text-light-secondary/70 focus:outline-none focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent transition"
               />
 
               <input
@@ -550,7 +555,7 @@ const handleLogout = () => {
                 value={profile.experience}
                 onChange={handleChange}
                 placeholder="Experience (years in decimal)"
-                className="w-full p-3 rounded-lg border"
+                className="w-full p-3 rounded-xl border border-gray-300/70 dark:border-white/10 bg-white/80 dark:bg-white/5 text-light-text dark:text-dark-text placeholder:text-light-secondary/70 focus:outline-none focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent transition"
               />
 
               <input
@@ -559,7 +564,7 @@ const handleLogout = () => {
                 value={profile.preferredcountry}
                 onChange={handleChange}
                 placeholder="Preferred Country"
-                className="w-full p-3 rounded-lg border"
+                className="w-full p-3 rounded-xl border border-gray-300/70 dark:border-white/10 bg-white/80 dark:bg-white/5 text-light-text dark:text-dark-text placeholder:text-light-secondary/70 focus:outline-none focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent transition"
               />
             <select
               name="fresher"
@@ -579,7 +584,7 @@ const handleLogout = () => {
                 value={profile.referredby}
                 onChange={handleChange}
                 placeholder="Referred By"
-                className="w-full p-3 rounded-lg border"
+                className="w-full p-3 rounded-xl border border-gray-300/70 dark:border-white/10 bg-white/80 dark:bg-white/5 text-light-text dark:text-dark-text placeholder:text-light-secondary/70 focus:outline-none focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent transition"
               />
 
               {/* Read-only fields */}
@@ -588,7 +593,7 @@ const handleLogout = () => {
                 value={profile.enteredby}
                 readOnly
                 placeholder="Entered By"
-                className="w-full p-3 rounded-lg border bg-gray-100"
+                className="w-full p-3 rounded-xl border border-gray-300/70 dark:border-white/10 bg-gray-100/80 dark:bg-white/[0.03] text-light-secondary dark:text-dark-secondary cursor-not-allowed"
               />
 
               <input
@@ -600,7 +605,7 @@ const handleLogout = () => {
                 }
                 readOnly
                 placeholder="Date of Entry"
-                className="w-full p-3 rounded-lg border bg-gray-100"
+                className="w-full p-3 rounded-xl border border-gray-300/70 dark:border-white/10 bg-gray-100/80 dark:bg-white/[0.03] text-light-secondary dark:text-dark-secondary cursor-not-allowed"
               />
               <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                 Upload Resume
@@ -615,7 +620,7 @@ const handleLogout = () => {
               <button
                 type="submit"
                 disabled={profileLoading}
-                className="w-full py-3 font-heading bg-light-primary text-white rounded-lg"
+                className="w-full py-3 font-heading font-semibold bg-light-primary dark:bg-dark-primary text-light-surface dark:text-dark-background rounded-xl shadow-soft hover:shadow-lift hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-60 disabled:hover:translate-y-0"
               >
                 {profileLoading ? "Updating..." : "Update Profile"}
               </button>
@@ -626,7 +631,7 @@ const handleLogout = () => {
             )}
           </div>
 
-          <hr className="my-8 border-gray-300" />
+          <hr className="my-8 border-light-secondary/20 dark:border-white/10" />
 
           {/* Change Password Section */}
           <div>
@@ -640,7 +645,7 @@ const handleLogout = () => {
                 onChange={(e) => setOldPassword(e.target.value)}
                 required
                 placeholder="Old Password"
-                className="w-full p-3 rounded-lg border"
+                className="w-full p-3 rounded-xl border border-gray-300/70 dark:border-white/10 bg-white/80 dark:bg-white/5 text-light-text dark:text-dark-text placeholder:text-light-secondary/70 focus:outline-none focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent transition"
               />
 
               <input
@@ -649,13 +654,13 @@ const handleLogout = () => {
                 onChange={(e) => setNewPassword(e.target.value)}
                 required
                 placeholder="New Password"
-                className="w-full p-3 rounded-lg border"
+                className="w-full p-3 rounded-xl border border-gray-300/70 dark:border-white/10 bg-white/80 dark:bg-white/5 text-light-text dark:text-dark-text placeholder:text-light-secondary/70 focus:outline-none focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent transition"
               />
 
               <button
                 type="submit"
                 disabled={passwordLoading}
-                className="w-full py-3 font-heading bg-light-primary text-white rounded-lg"
+                className="w-full py-3 font-heading font-semibold bg-light-primary dark:bg-dark-primary text-light-surface dark:text-dark-background rounded-xl shadow-soft hover:shadow-lift hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-60 disabled:hover:translate-y-0"
               >
                 {passwordLoading ? "Updating..." : "Change Password"}
               </button>
@@ -671,7 +676,7 @@ const handleLogout = () => {
           <div className="flex justify-center mt-10">
             <button
               onClick={handleLogout}
-              className="py-2 px-6 font-heading bg-red-600 text-white rounded-lg"
+              className="py-2.5 px-8 font-heading font-semibold bg-red-500 hover:bg-red-600 text-white rounded-full shadow-md hover:-translate-y-0.5 transition-all duration-300"
             >
               Logout
             </button>
